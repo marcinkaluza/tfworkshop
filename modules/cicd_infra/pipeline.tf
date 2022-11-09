@@ -6,7 +6,7 @@ module "pipeline_bucket" {
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "cicd-infra-pipeline"
+  name     = "${var.repo_name}"
   role_arn = aws_iam_role.codepipeline-role.arn
 
   artifact_store {

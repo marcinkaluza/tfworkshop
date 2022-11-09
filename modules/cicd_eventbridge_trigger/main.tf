@@ -31,7 +31,7 @@ resource "aws_cloudwatch_event_target" "target" {
 # Creating IAM role to associate to the target
 #
 resource "aws_iam_role" "role" {
-  name_prefix = "${var.rule_name_prefix}role_"
+  name = "${var.rule_name_prefix}role"
   assume_role_policy = jsonencode(
     {
       Version = "2012-10-17"
