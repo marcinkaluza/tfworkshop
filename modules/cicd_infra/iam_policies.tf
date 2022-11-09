@@ -7,7 +7,7 @@ resource "aws_iam_policy" "s3_artifacts_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Resource": ["${module.infra-pipeline.s3_arn}", "${module.infra-pipeline.s3_arn}/*" ],
+      "Resource": ["${module.pipeline_bucket.arn}", "${module.pipeline_bucket.arn}/*" ],
       "Action": ["s3:Get*", "s3:List*", "s3:Put*"],
       "Effect": "Allow"
     }
@@ -25,7 +25,7 @@ resource "aws_iam_policy" "codecommit_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Resource": ["${module.infra-cc.repo_arn}", "${module.infra-cc.repo_arn}/*" ],
+      "Resource": ["${aws_codecommit_repository.infra_repo.arn}"],
       "Action": ["codecommit:*"],
       "Effect": "Allow"
     }

@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.1.5",
-  "serial": 65,
+  "serial": 38,
   "lineage": "991aeee4-a265-3107-b3e1-bcd52eb1c634",
   "outputs": {
     "git_password": {
@@ -23,24 +23,6 @@
     }
   },
   "resources": [
-    {
-      "mode": "data",
-      "type": "aws_caller_identity",
-      "name": "current",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "account_id": "978200889980",
-            "arn": "arn:aws:sts::978200889980:assumed-role/Administrator/mkaluz-Isengard",
-            "id": "978200889980",
-            "user_id": "AROA6HQKRBJ6I3EGFZFYT:mkaluz-Isengard"
-          },
-          "sensitive_attributes": []
-        }
-      ]
-    },
     {
       "mode": "data",
       "type": "aws_iam_policy",
@@ -84,143 +66,6 @@
             "tags": {}
           },
           "sensitive_attributes": []
-        }
-      ]
-    },
-    {
-      "mode": "managed",
-      "type": "aws_codecommit_repository",
-      "name": "infra_repo",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:codecommit:eu-west-1:978200889980:terraform-assets",
-            "clone_url_http": "https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/terraform-assets",
-            "clone_url_ssh": "ssh://git-codecommit.eu-west-1.amazonaws.com/v1/repos/terraform-assets",
-            "default_branch": null,
-            "description": "This is the Infra Repository",
-            "id": "terraform-assets",
-            "repository_id": "840ac9f2-cc00-4d8d-8819-376f78ead5bd",
-            "repository_name": "terraform-assets",
-            "tags": {},
-            "tags_all": {}
-          },
-          "sensitive_attributes": [],
-          "private": "bnVsbA=="
-        }
-      ]
-    },
-    {
-      "mode": "managed",
-      "type": "aws_codepipeline",
-      "name": "codepipeline",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "arn": "arn:aws:codepipeline:eu-west-1:978200889980:cicd-infra-pipeline",
-            "artifact_store": [
-              {
-                "encryption_key": [],
-                "location": "terraform-assets-pipeline-20221109125320610800000001",
-                "region": "",
-                "type": "S3"
-              }
-            ],
-            "id": "cicd-infra-pipeline",
-            "name": "cicd-infra-pipeline",
-            "role_arn": "arn:aws:iam::978200889980:role/InfraCodePipelineRole",
-            "stage": [
-              {
-                "action": [
-                  {
-                    "category": "Source",
-                    "configuration": {
-                      "BranchName": "main",
-                      "PollForSourceChanges": "false",
-                      "RepositoryName": "terraform-assets"
-                    },
-                    "input_artifacts": [],
-                    "name": "Source",
-                    "namespace": "",
-                    "output_artifacts": [
-                      "SourceArtifacts"
-                    ],
-                    "owner": "AWS",
-                    "provider": "CodeCommit",
-                    "region": "",
-                    "role_arn": "",
-                    "run_order": 1,
-                    "version": "1"
-                  }
-                ],
-                "name": "Source"
-              },
-              {
-                "action": [
-                  {
-                    "category": "Build",
-                    "configuration": {
-                      "EnvironmentVariables": "[{\"name\":\"AWS_ACCOUNT_ID\",\"value\":\"978200889980\"}]",
-                      "ProjectName": "arn:aws:codebuild:eu-west-1:978200889980:project/security-review"
-                    },
-                    "input_artifacts": [
-                      "SourceArtifacts"
-                    ],
-                    "name": "SecurityReview",
-                    "namespace": "",
-                    "output_artifacts": [],
-                    "owner": "AWS",
-                    "provider": "CodeBuild",
-                    "region": "",
-                    "role_arn": "",
-                    "run_order": 1,
-                    "version": "1"
-                  }
-                ],
-                "name": "SecurityScan"
-              },
-              {
-                "action": [
-                  {
-                    "category": "Build",
-                    "configuration": {
-                      "EnvironmentVariables": "[{\"name\":\"AWS_ACCOUNT_ID\",\"value\":\"978200889980\"},{\"name\":\"TERRAFORM_ROLE\",\"value\":\"arn:aws:iam::978200889980:role/Terraform-role\"}]",
-                      "ProjectName": "arn:aws:codebuild:eu-west-1:978200889980:project/infrastructure-build"
-                    },
-                    "input_artifacts": [
-                      "SourceArtifacts"
-                    ],
-                    "name": "BuildInfra",
-                    "namespace": "",
-                    "output_artifacts": [],
-                    "owner": "AWS",
-                    "provider": "CodeBuild",
-                    "region": "",
-                    "role_arn": "",
-                    "run_order": 2,
-                    "version": "1"
-                  }
-                ],
-                "name": "Build"
-              }
-            ],
-            "tags": {},
-            "tags_all": {}
-          },
-          "sensitive_attributes": [],
-          "private": "bnVsbA==",
-          "dependencies": [
-            "aws_iam_role.codepipeline-role",
-            "aws_iam_role.terraform-role",
-            "data.aws_caller_identity.current",
-            "module.infra-build.aws_codebuild_project.build_project",
-            "module.pipeline_bucket.aws_s3_bucket.bucket",
-            "module.security-build.aws_codebuild_project.build_project"
-          ]
         }
       ]
     },
@@ -302,7 +147,7 @@
             "name": "codecommit_repo_policy",
             "name_prefix": null,
             "path": "/",
-            "policy": "{\"Statement\":[{\"Action\":[\"codecommit:*\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:codecommit:eu-west-1:978200889980:terraform-assets\"]}],\"Version\":\"2012-10-17\"}",
+            "policy": "{\"Statement\":[{\"Action\":[\"codecommit:*\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:codecommit:eu-west-1:978200889980:terraform-assets\",\"arn:aws:codecommit:eu-west-1:978200889980:terraform-assets/*\"]}],\"Version\":\"2012-10-17\"}",
             "policy_id": "ANPA6HQKRBJ6P7PUXMM74",
             "tags": {},
             "tags_all": {}
@@ -310,7 +155,7 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codecommit_repository.infra_repo"
+            "module.infra-cc.aws_codecommit_repository.infra-repo"
           ]
         }
       ]
@@ -330,7 +175,7 @@
             "name": "artifacts_bucket_policy",
             "name_prefix": null,
             "path": "/",
-            "policy": "{\"Statement\":[{\"Action\":[\"s3:Get*\",\"s3:List*\",\"s3:Put*\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::terraform-assets-pipeline-20221109125320610800000001\",\"arn:aws:s3:::terraform-assets-pipeline-20221109125320610800000001/*\"]}],\"Version\":\"2012-10-17\"}",
+            "policy": "{\"Statement\":[{\"Action\":[\"s3:Get*\",\"s3:List*\",\"s3:Put*\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::terraform-20221109100934749200000001\",\"arn:aws:s3:::terraform-20221109100934749200000001/*\"]}],\"Version\":\"2012-10-17\"}",
             "policy_id": "ANPA6HQKRBJ6GHYFOBOD3",
             "tags": {},
             "tags_all": {}
@@ -338,7 +183,7 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket"
           ]
         }
       ]
@@ -518,7 +363,7 @@
           "dependencies": [
             "aws_iam_policy.s3_artifacts_policy",
             "aws_iam_role.codebuild-role",
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket"
           ]
         }
       ]
@@ -539,9 +384,9 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codecommit_repository.infra_repo",
             "aws_iam_policy.codecommit_policy",
-            "aws_iam_role.codebuild-role"
+            "aws_iam_role.codebuild-role",
+            "module.infra-cc.aws_codecommit_repository.infra-repo"
           ]
         }
       ]
@@ -619,7 +464,7 @@
           "dependencies": [
             "aws_iam_policy.s3_artifacts_policy",
             "aws_iam_role.codepipeline-role",
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket"
           ]
         }
       ]
@@ -662,9 +507,9 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codecommit_repository.infra_repo",
             "aws_iam_policy.codecommit_policy",
-            "aws_iam_role.codepipeline-role"
+            "aws_iam_role.codepipeline-role",
+            "module.infra-cc.aws_codecommit_repository.infra-repo"
           ]
         }
       ]
@@ -736,8 +581,8 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codecommit_repository.infra_repo",
-            "aws_iam_user.gitlab_user"
+            "aws_iam_user.gitlab_user",
+            "module.infra-cc.aws_codecommit_repository.infra-repo"
           ]
         }
       ]
@@ -1001,6 +846,32 @@
       ]
     },
     {
+      "module": "module.infra-cc",
+      "mode": "managed",
+      "type": "aws_codecommit_repository",
+      "name": "infra-repo",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:codecommit:eu-west-1:978200889980:terraform-assets",
+            "clone_url_http": "https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/terraform-assets",
+            "clone_url_ssh": "ssh://git-codecommit.eu-west-1.amazonaws.com/v1/repos/terraform-assets",
+            "default_branch": null,
+            "description": "This is the Infra Repository",
+            "id": "terraform-assets",
+            "repository_id": "840ac9f2-cc00-4d8d-8819-376f78ead5bd",
+            "repository_name": "terraform-assets",
+            "tags": {},
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
       "module": "module.infra-eventbridge",
       "mode": "data",
       "type": "aws_iam_policy_document",
@@ -1066,7 +937,7 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codecommit_repository.infra_repo"
+            "module.infra-cc.aws_codecommit_repository.infra-repo"
           ]
         }
       ]
@@ -1103,20 +974,20 @@
           "sensitive_attributes": [],
           "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
           "dependencies": [
-            "aws_codecommit_repository.infra_repo",
-            "aws_codepipeline.codepipeline",
             "aws_iam_role.codebuild-role",
             "aws_iam_role.codepipeline-role",
             "aws_iam_role.terraform-role",
-            "data.aws_caller_identity.current",
             "module.infra-build.aws_codebuild_project.build_project",
             "module.infra-build.aws_kms_key.codebuild_kms",
             "module.infra-build.data.aws_caller_identity.current",
             "module.infra-build.data.aws_iam_policy_document.kms_policy",
             "module.infra-build.data.aws_region.current",
+            "module.infra-cc.aws_codecommit_repository.infra-repo",
             "module.infra-eventbridge.aws_cloudwatch_event_rule.cicd-infra-trigger",
             "module.infra-eventbridge.aws_iam_role.event_target_start_infra_pipeline",
-            "module.pipeline_bucket.aws_s3_bucket.bucket",
+            "module.infra-pipeline.aws_codepipeline.codepipeline",
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket",
+            "module.infra-pipeline.data.aws_caller_identity.current",
             "module.security-build.aws_codebuild_project.build_project",
             "module.security-build.aws_kms_key.codebuild_kms",
             "module.security-build.data.aws_caller_identity.current",
@@ -1150,18 +1021,18 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codepipeline.codepipeline",
             "aws_iam_role.codebuild-role",
             "aws_iam_role.codepipeline-role",
             "aws_iam_role.terraform-role",
-            "data.aws_caller_identity.current",
             "module.infra-build.aws_codebuild_project.build_project",
             "module.infra-build.aws_kms_key.codebuild_kms",
             "module.infra-build.data.aws_caller_identity.current",
             "module.infra-build.data.aws_iam_policy_document.kms_policy",
             "module.infra-build.data.aws_region.current",
             "module.infra-eventbridge.data.aws_iam_policy_document.event_target_start_infra_pipeline",
-            "module.pipeline_bucket.aws_s3_bucket.bucket",
+            "module.infra-pipeline.aws_codepipeline.codepipeline",
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket",
+            "module.infra-pipeline.data.aws_caller_identity.current",
             "module.security-build.aws_codebuild_project.build_project",
             "module.security-build.aws_kms_key.codebuild_kms",
             "module.security-build.data.aws_caller_identity.current",
@@ -1222,11 +1093,9 @@
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "aws_codepipeline.codepipeline",
             "aws_iam_role.codebuild-role",
             "aws_iam_role.codepipeline-role",
             "aws_iam_role.terraform-role",
-            "data.aws_caller_identity.current",
             "module.infra-build.aws_codebuild_project.build_project",
             "module.infra-build.aws_kms_key.codebuild_kms",
             "module.infra-build.data.aws_caller_identity.current",
@@ -1235,7 +1104,9 @@
             "module.infra-eventbridge.aws_iam_policy.event_target_start_infra_pipeline",
             "module.infra-eventbridge.aws_iam_role.event_target_start_infra_pipeline",
             "module.infra-eventbridge.data.aws_iam_policy_document.event_target_start_infra_pipeline",
-            "module.pipeline_bucket.aws_s3_bucket.bucket",
+            "module.infra-pipeline.aws_codepipeline.codepipeline",
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket",
+            "module.infra-pipeline.data.aws_caller_identity.current",
             "module.security-build.aws_codebuild_project.build_project",
             "module.security-build.aws_kms_key.codebuild_kms",
             "module.security-build.data.aws_caller_identity.current",
@@ -1246,10 +1117,151 @@
       ]
     },
     {
-      "module": "module.pipeline_bucket",
+      "module": "module.infra-pipeline",
+      "mode": "data",
+      "type": "aws_caller_identity",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "978200889980",
+            "arn": "arn:aws:sts::978200889980:assumed-role/Administrator/mkaluz-Isengard",
+            "id": "978200889980",
+            "user_id": "AROA6HQKRBJ6I3EGFZFYT:mkaluz-Isengard"
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "module": "module.infra-pipeline",
+      "mode": "managed",
+      "type": "aws_codepipeline",
+      "name": "codepipeline",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:codepipeline:eu-west-1:978200889980:cicd-infra-pipeline",
+            "artifact_store": [
+              {
+                "encryption_key": [],
+                "location": "terraform-20221109100934749200000001",
+                "region": "",
+                "type": "S3"
+              }
+            ],
+            "id": "cicd-infra-pipeline",
+            "name": "cicd-infra-pipeline",
+            "role_arn": "arn:aws:iam::978200889980:role/InfraCodePipelineRole",
+            "stage": [
+              {
+                "action": [
+                  {
+                    "category": "Source",
+                    "configuration": {
+                      "BranchName": "main",
+                      "PollForSourceChanges": "false",
+                      "RepositoryName": "terraform-assets"
+                    },
+                    "input_artifacts": [],
+                    "name": "Source",
+                    "namespace": "",
+                    "output_artifacts": [
+                      "SourceArtifacts"
+                    ],
+                    "owner": "AWS",
+                    "provider": "CodeCommit",
+                    "region": "",
+                    "role_arn": "",
+                    "run_order": 1,
+                    "version": "1"
+                  }
+                ],
+                "name": "Source"
+              },
+              {
+                "action": [
+                  {
+                    "category": "Build",
+                    "configuration": {
+                      "EnvironmentVariables": "[{\"name\":\"AWS_ACCOUNT_ID\",\"value\":\"978200889980\"}]",
+                      "ProjectName": "arn:aws:codebuild:eu-west-1:978200889980:project/security-review"
+                    },
+                    "input_artifacts": [
+                      "SourceArtifacts"
+                    ],
+                    "name": "SecurityReview",
+                    "namespace": "",
+                    "output_artifacts": [],
+                    "owner": "AWS",
+                    "provider": "CodeBuild",
+                    "region": "",
+                    "role_arn": "",
+                    "run_order": 1,
+                    "version": "1"
+                  }
+                ],
+                "name": "SecurityScan"
+              },
+              {
+                "action": [
+                  {
+                    "category": "Build",
+                    "configuration": {
+                      "EnvironmentVariables": "[{\"name\":\"AWS_ACCOUNT_ID\",\"value\":\"978200889980\"},{\"name\":\"TERRAFORM_ROLE\",\"value\":\"arn:aws:iam::978200889980:role/Terraform-role\"}]",
+                      "ProjectName": "arn:aws:codebuild:eu-west-1:978200889980:project/infrastructure-build"
+                    },
+                    "input_artifacts": [
+                      "SourceArtifacts"
+                    ],
+                    "name": "BuildInfra",
+                    "namespace": "",
+                    "output_artifacts": [],
+                    "owner": "AWS",
+                    "provider": "CodeBuild",
+                    "region": "",
+                    "role_arn": "",
+                    "run_order": 2,
+                    "version": "1"
+                  }
+                ],
+                "name": "Build"
+              }
+            ],
+            "tags": {},
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.codebuild-role",
+            "aws_iam_role.codepipeline-role",
+            "aws_iam_role.terraform-role",
+            "module.infra-build.aws_codebuild_project.build_project",
+            "module.infra-build.aws_kms_key.codebuild_kms",
+            "module.infra-build.data.aws_caller_identity.current",
+            "module.infra-build.data.aws_iam_policy_document.kms_policy",
+            "module.infra-build.data.aws_region.current",
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket",
+            "module.infra-pipeline.data.aws_caller_identity.current",
+            "module.security-build.aws_codebuild_project.build_project",
+            "module.security-build.aws_kms_key.codebuild_kms",
+            "module.security-build.data.aws_caller_identity.current",
+            "module.security-build.data.aws_iam_policy_document.kms_policy",
+            "module.security-build.data.aws_region.current"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.infra-pipeline",
       "mode": "managed",
       "type": "aws_s3_bucket",
-      "name": "bucket",
+      "name": "codepipeline_bucket",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
       "instances": [
         {
@@ -1257,13 +1269,13 @@
           "attributes": {
             "acceleration_status": "",
             "acl": null,
-            "arn": "arn:aws:s3:::terraform-assets-pipeline-20221109125320610800000001",
-            "bucket": "terraform-assets-pipeline-20221109125320610800000001",
-            "bucket_domain_name": "terraform-assets-pipeline-20221109125320610800000001.s3.amazonaws.com",
-            "bucket_prefix": "terraform-assets-pipeline-",
-            "bucket_regional_domain_name": "terraform-assets-pipeline-20221109125320610800000001.s3.eu-west-1.amazonaws.com",
+            "arn": "arn:aws:s3:::terraform-20221109100934749200000001",
+            "bucket": "terraform-20221109100934749200000001",
+            "bucket_domain_name": "terraform-20221109100934749200000001.s3.amazonaws.com",
+            "bucket_prefix": null,
+            "bucket_regional_domain_name": "terraform-20221109100934749200000001.s3.eu-west-1.amazonaws.com",
             "cors_rule": [],
-            "force_destroy": true,
+            "force_destroy": false,
             "grant": [
               {
                 "id": "ad160b17cbfc6df06fe80c405a511c05ef98209ace70174d4c00b8a2c882e80b",
@@ -1275,7 +1287,7 @@
               }
             ],
             "hosted_zone_id": "Z1BKCTXD74EZPE",
-            "id": "terraform-assets-pipeline-20221109125320610800000001",
+            "id": "terraform-20221109100934749200000001",
             "lifecycle_rule": [],
             "logging": [],
             "object_lock_configuration": [],
@@ -1284,8 +1296,22 @@
             "region": "eu-west-1",
             "replication_configuration": [],
             "request_payer": "BucketOwner",
-            "server_side_encryption_configuration": [],
-            "tags": null,
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "aws:kms"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {},
             "tags_all": {},
             "timeouts": null,
             "versioning": [
@@ -1304,32 +1330,7 @@
       ]
     },
     {
-      "module": "module.pipeline_bucket",
-      "mode": "managed",
-      "type": "aws_s3_bucket_logging",
-      "name": "example",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "bucket": "terraform-assets-pipeline-20221109125320610800000001",
-            "expected_bucket_owner": "",
-            "id": "terraform-assets-pipeline-20221109125320610800000001",
-            "target_bucket": "terraform-assets-pipeline-20221109125320610800000001",
-            "target_grant": [],
-            "target_prefix": "log/"
-          },
-          "sensitive_attributes": [],
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.pipeline_bucket",
+      "module": "module.infra-pipeline",
       "mode": "managed",
       "type": "aws_s3_bucket_public_access_block",
       "name": "public_access",
@@ -1340,32 +1341,32 @@
           "attributes": {
             "block_public_acls": true,
             "block_public_policy": true,
-            "bucket": "terraform-assets-pipeline-20221109125320610800000001",
-            "id": "terraform-assets-pipeline-20221109125320610800000001",
+            "bucket": "terraform-20221109100934749200000001",
+            "id": "terraform-20221109100934749200000001",
             "ignore_public_acls": true,
             "restrict_public_buckets": true
           },
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket"
           ]
         }
       ]
     },
     {
-      "module": "module.pipeline_bucket",
+      "module": "module.infra-pipeline",
       "mode": "managed",
       "type": "aws_s3_bucket_server_side_encryption_configuration",
-      "name": "sse_conf",
+      "name": "example",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
       "instances": [
         {
           "schema_version": 0,
           "attributes": {
-            "bucket": "terraform-assets-pipeline-20221109125320610800000001",
+            "bucket": "terraform-20221109100934749200000001",
             "expected_bucket_owner": "",
-            "id": "terraform-assets-pipeline-20221109125320610800000001",
+            "id": "terraform-20221109100934749200000001",
             "rule": [
               {
                 "apply_server_side_encryption_by_default": [
@@ -1374,43 +1375,14 @@
                     "sse_algorithm": "aws:kms"
                   }
                 ],
-                "bucket_key_enabled": null
+                "bucket_key_enabled": false
               }
             ]
           },
           "sensitive_attributes": [],
           "private": "bnVsbA==",
           "dependencies": [
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
-          ]
-        }
-      ]
-    },
-    {
-      "module": "module.pipeline_bucket",
-      "mode": "managed",
-      "type": "aws_s3_bucket_versioning",
-      "name": "versioning",
-      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "bucket": "terraform-assets-pipeline-20221109125320610800000001",
-            "expected_bucket_owner": "",
-            "id": "terraform-assets-pipeline-20221109125320610800000001",
-            "mfa": null,
-            "versioning_configuration": [
-              {
-                "mfa_delete": "",
-                "status": "Enabled"
-              }
-            ]
-          },
-          "sensitive_attributes": [],
-          "private": "bnVsbA==",
-          "dependencies": [
-            "module.pipeline_bucket.aws_s3_bucket.bucket"
+            "module.infra-pipeline.aws_s3_bucket.codepipeline_bucket"
           ]
         }
       ]

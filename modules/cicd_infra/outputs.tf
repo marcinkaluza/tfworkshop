@@ -1,5 +1,5 @@
 output "infra_git_repo_url" {
-  value = module.infra-cc.codecommit_repo_url
+  value = aws_codecommit_repository.infra_repo.clone_url_http
 }
 
 output "terraform_role" {
