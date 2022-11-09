@@ -39,13 +39,8 @@ data "aws_iam_policy_document" "policy" {
     ]
     resources = ["*"]
     principals {
-      type        = "Service"
-      identifiers = ["codepipeline.${data.aws_region.current.name}.amazonaws.com"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values   = [data.aws_caller_identity.current.account_id]
+      type        = "AWS"
+      identifiers = [aws_iam_role.codepipeline-role.arn, aws_iam_role.codebuild-role.arn]
     }
   }
 }
