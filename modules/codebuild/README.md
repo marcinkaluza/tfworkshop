@@ -5,10 +5,12 @@ This module creates codebuild project with KMS encryption key and appropriate ke
 Simple useage:
 
 <code>
-module mymodule { <br>  
-   &nbsp; source = "../modules/mymodule" <br>
-   &nbsp; arg1 = "my_bucket_" <br>
-   &nbsp; arg2 = "something else" <br>
+module "infra-build" { <br>
+  &nbsp; source              = "../codebuild" <br>
+  &nbsp; codecommit_repo     = var.repo_name <br>
+  &nbsp; codebuild_role      = aws_iam_role.codebuild-role.arn <br>
+  &nbsp; buildspec_file_name = "buildspec.yml" <br>
+  &nbsp; project_name        = "infrastructure-build" <br>
 }
 </code>
 <br>
