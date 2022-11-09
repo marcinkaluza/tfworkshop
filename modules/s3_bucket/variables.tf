@@ -10,8 +10,14 @@ variable "sse_algorithm" {
   default     = "aws:kms"
 }
 
-variable log_bucket {
+variable "log_bucket" {
   type = string
   description = "Target bucket for access logs (optional). If not provided, bucket will store log in itself"
+  default = null
+}
+
+variable "oai_iam_arn" {
+  type = string
+  description = "IAM arn of the Origin Access Identity"
   default = null
 }

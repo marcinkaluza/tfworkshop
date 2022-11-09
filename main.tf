@@ -1,4 +1,4 @@
-module "s3_bucket" "my_bucket" {
+module "s3_bucket"{
   source         = "./modules/s3_bucket"
-  buckety_prefis = "kirils_bucket"
+  name_prefix = "kirils_bucket"
 }
