@@ -10,6 +10,7 @@ resource "aws_iam_user" "gitlab_user" {
 # Attach code commit access policy to the user
 #
 resource "aws_iam_user_policy" "access_policy" {
+  #checkov:skip=CKV_AWS_40: "Ensure IAM policies are attached only to groups or roles (Reducing access management complexity may in-turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.)"
   name = "CodeCommit_Access_Policy"
   user = aws_iam_user.gitlab_user.name
 
