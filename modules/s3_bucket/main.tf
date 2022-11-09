@@ -1,5 +1,5 @@
 #
-# Terraform code bucket
+# Bucket resource
 #
 resource "aws_s3_bucket" "bucket" {
   #Skipping checkov checks
@@ -22,14 +22,14 @@ resource "aws_s3_bucket_versioning" "versioning" {
 #
 # Access logs
 #
-resource "aws_s3_bucket_logging" "example" {
+resource "aws_s3_bucket_logging" "logging" {
   bucket        = aws_s3_bucket.bucket.id
   target_bucket = var.log_bucket != null ? var.log_bucket : aws_s3_bucket.bucket.id
   target_prefix = "log/"
 }
 
 #
-# Terraform code bucket SSE conf
+# SSE configration
 #
 resource "aws_s3_bucket_server_side_encryption_configuration" "sse_conf" {
   bucket = aws_s3_bucket.bucket.bucket
@@ -41,7 +41,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "sse_conf" {
 }
 
 #
-# Terraform code bucket public access conf
+# Public access block
 #
 resource "aws_s3_bucket_public_access_block" "public_access" {
   bucket = aws_s3_bucket.bucket.id

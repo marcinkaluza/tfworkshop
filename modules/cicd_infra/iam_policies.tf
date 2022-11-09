@@ -19,7 +19,7 @@ resource "aws_iam_policy" "s3_artifacts_policy" {
 }
 
 resource "aws_iam_policy" "codecommit_policy" {
-  name        = "codecommit_repo_policy"
+  name_prefix = "codecommit_repo_policy_"
   description = "Policy to access the infra codecommit repo"
 
   policy = jsonencode(
@@ -113,18 +113,4 @@ resource "aws_iam_role_policy_attachment" "cp_attach_policy" {
   policy_arn = data.aws_iam_policy.codepipeline_full_policy.arn
 }
 
-##
-
-
-
-
-# resource "aws_iam_role_policy_attachment" "cp_attach_policy_cb" {
-#   role       = aws_iam_role.codepipeline-role.name
-#   policy_arn = aws_iam_policy.codebuild_policy.arn
-# }
-
-# resource "aws_iam_role_policy_attachment" "cp_attach_policy_logs" {
-#   role       = aws_iam_role.codebuild-role.name
-#   policy_arn = aws_iam_policy.cloudwatch_logs.arn
-# }
 
