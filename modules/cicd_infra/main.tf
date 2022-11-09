@@ -31,9 +31,10 @@ module "infra-build" {
 #
 # EventBridge rule to trigger cicd pipeline
 #
-module "infra-eventbridge" {
-  source                 = "../codepipeline-eventbridge"
-  infra_repo_arn         = aws_codecommit_repository.infra_repo.arn
-  infra_codepipeline_arn = aws_codepipeline.codepipeline.arn
+module "trigger" {
+  source           = "../cicd_eventbridge_trigger"
+  repo_arn         = aws_codecommit_repository.infra_repo.arn
+  codepipeline_arn = aws_codepipeline.codepipeline.arn
+  rule_name_prefix = "${aws_codepipeline.codepipeline.name}_trigger_"
 }
 

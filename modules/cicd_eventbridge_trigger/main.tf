@@ -24,14 +24,14 @@ resource "aws_cloudwatch_event_target" "target" {
   rule      = aws_cloudwatch_event_rule.rule.name
   target_id = "TriggerCodePipeline"
   arn       = var.codepipeline_arn
-  role_arn  = aws_iam_role.event_target_start_infra_pipeline.arn
+  role_arn  = aws_iam_role.role.arn
 }
 
 #
 # Creating IAM role to associate to the target
 #
-resource "aws_iam_role" "event_target_start_infra_pipeline" {
-  name = "event_target_start_infra_pipeline"
+resource "aws_iam_role" "role" {
+  name_prefix = "${var.rule_name_prefix}role_"
   assume_role_policy = jsonencode(
     {
       Version = "2012-10-17"
@@ -51,7 +51,7 @@ resource "aws_iam_role" "event_target_start_infra_pipeline" {
 #
 # Creating IAM policy document to associate to the role
 #
-data "aws_iam_policy_document" "event_target_start_infra_pipeline" {
+data "aws_iam_policy_document" "policy" {
   statement {
     effect    = "Allow"
     actions   = ["codepipeline:StartPipelineExecution"]
@@ -62,9 +62,9 @@ data "aws_iam_policy_document" "event_target_start_infra_pipeline" {
 #
 # Creating the IAM policy to associate to the role
 #
-resource "aws_iam_role_policy" "event_target_start_infra_pipeline" {
-  name   = "event_target_start_infra_pipeline"
-  policy = data.aws_iam_policy_document.event_target_start_infra_pipeline.json
-  role   = aws_iam_role.event_target_start_infra_pipeline.name
+resource "aws_iam_role_policy" "policy" {
+  name   = "start_code_pipeline"
+  policy = data.aws_iam_policy_document.policy.json
+  role   = aws_iam_role.role.name
 }
 

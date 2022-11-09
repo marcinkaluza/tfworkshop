@@ -36,8 +36,8 @@ resource "aws_iam_policy" "codecommit_policy" {
 }
 
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name        = "codebuild_policy"
-  role        = aws_iam_role.codepipeline-role.name
+  name = "codebuild_policy"
+  role = aws_iam_role.codepipeline-role.name
 
   policy = jsonencode(
     {
@@ -56,8 +56,8 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 }
 
 resource "aws_iam_role_policy" "cloudwatch_logs" {
-  name        = "logs_policy"
-  role        = aws_iam_role.codebuild-role.name
+  name = "logs_policy"
+  role = aws_iam_role.codebuild-role.name
 
   policy = jsonencode(
     {
