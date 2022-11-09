@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
-module pipeline_bucket {
-  source = "../s3_bucket"
+module "pipeline_bucket" {
+  source      = "../s3_bucket"
   name_prefix = "${var.repo_name}-pipeline-"
 }
 

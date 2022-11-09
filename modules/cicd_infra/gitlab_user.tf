@@ -9,7 +9,7 @@ resource "aws_iam_user" "gitlab_user" {
 #
 # Attach code commit access policy to the user
 #
-resource "aws_iam_user_policy" "accesspolicy" {
+resource "aws_iam_user_policy" "access_policy" {
   name = "CodeCommit_Access_Policy"
   user = aws_iam_user.gitlab_user.name
 
