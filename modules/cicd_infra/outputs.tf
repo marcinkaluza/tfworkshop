@@ -1,4 +1,4 @@
-output "infra_git_repo_url" {
+output "git_repo_url" {
   value = aws_codecommit_repository.infra_repo.clone_url_http
 }
 

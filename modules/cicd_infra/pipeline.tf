@@ -6,7 +6,7 @@ module "pipeline_bucket" {
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "cicd-infra-pipeline"
+  name     = "${var.repo_name}"
   role_arn = aws_iam_role.codepipeline-role.arn
 
   artifact_store {
@@ -16,7 +16,7 @@ resource "aws_codepipeline" "codepipeline" {
     encryption_key {
       id   = aws_kms_key.artifacts_key.arn
       type = "KMS"
-    }    
+    }
   }
 
   stage {

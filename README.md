@@ -50,8 +50,8 @@ The modules directory contains following modules:
 | Module    | Description |
 |-----------| ----------------------------------|
 | [bootstrap](./modules/bootstrap/README.md) | Standalone module to create Terraform state storage in S3 |
-| [cicd_infra](./modules/cicd_infra/READEME.md)| CodeCommit repository and build pipeline for infrastructure projects|
-| [s3_bucket](./modules/s3_bucket/READEME.md) | S3 Bucket with encryption, access logging etc. |
+| [cicd_infra](./modules/cicd_infra/README.md)| CodeCommit repository and build pipeline for infrastructure projects|
+| [s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
 
 ## Contributing
 Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines how to contribute to this project.
