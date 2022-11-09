@@ -1,38 +1,58 @@
 # What is this module for
-Create a cloudfront distribution
+Creates ressources for CloudFront distribution:
+- An S3 bucket for the static website
+- An S3 bucket for access logs
+- A CloudFront Origin Access Identity
+- A CloudFront Distribution
+- A Route 53 record for the website
 
-Why you must use AES256 encryption on the S3 bucket:
+
+
+**NOTE:** Why you must use AES256 encryption on the S3 bucket:
 CloudFront currently does not support KMS server-side encryption for S3. The reason this does not work is that viewer requests through CloudFront does not have access to the KMS credentials used to encrypt the s3 objects. We would recommend using signed URLs and Origin Access Identities without KMS. We are aware of this limitation and a feature request is submitted to the CloudFront team.
 
 # How do I use it?
 Simple useage:
 
-<code>
-module mybucket { <br>  
-   &nbsp; source = "../modules/s3_bucket" <br>
-   &nbsp; name_prefix = "my_bucket_" <br>
+```hcl
+module "cloudfront-distribution" {
+ source               = "./modules/cloudfront-distribution" 
+ acm_certificate_arn  = acm_certificate_arn 
+ s3_bucket_prefix     = "my-bucket-prefix" 
+ cloudfront_alias     = "myDomain"
+ r53_zone_id          = "aws_route53_zone_id"
+ apigw_origin_enabled = false
+ api_domain_name      = "api_domain"
+ api_origin_id        = "API" 
+ web_acl_id           = "my_web_acl" 
 }
-</code>
-<br>
-<br>
+```
 
 # Inputs
 |Variable name|Required|Description|
 |-------------|--------|-----------|
-|name_prefix|Yes|Prefix of the S3 bucket name. TF will automaticaly generate bucket name using this prefix. **NOTE:** S3 bucket names do not accept uppercase characters in their names!|
-|sse_algorithm|No|By default **aws:kms** will be used. **AES256** can be specified if the bucket is to be used with CloudFront.
-|log_bucket|No|Name of the bucket where access logs are to be stored. If not specified, the bucket will store the logs with the /log prefix in itself.|
+|acm_certificate_arn|Yes||
+|s3_bucket_prefix|Yes||
+|cloudfront_alias|Yes||
+|r53_zone_id|Yes||
+|apigw_origin_enabled|Yes||
+|api_domain_name|Yes||
+|api_origin_id|Yes||
+|web_acl_id|Yes||
 
 # Outputs
 |Output|Description|
 |---|---|
-|name|Generated name of the bucket|
-|arn|ARN of the bucket created|
-|regional_domain_name|The bucket region-specific domain name. Used for creating Cloudfront S3 origins|
+|cloudfront_domain_name|Domain name of cloudfront distribution|
+|cloudfront_hosted_zone_id|Hosted zone id of cloudfront distribution|
+|cloudfront_distribution_id|Distribution id of cloudfront distribution|
+|cloudfront_distribution_arn|ARN of cloudfront distribution|
+|website_bucket_arn|ARN of website hosting bucket|
+|website_bucket_name|Name of website hosting bucket|
+|oai_iam_arn|IAM arn of the OAI. This attribute is a pre-generated ARN for use in S3 bucket policies|
 
 # Ignored checkov warnings
 
 |Warning|Description|Reason|
 |---|---|---|
-|CKV_AWS_144|Ensure that S3 bucket has cross-region replication enabled|Redundant to requirements
-|CKV_AWS_145|Ensure that S3 buckets are encrypted with KMS by default|We need to allow AES256 encryption for Cloudfront
+||||
