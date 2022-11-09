@@ -2,7 +2,7 @@
 # Role for infra project code build
 #
 resource "aws_iam_role" "codebuild-role" {
-  name = "InfraCodeBuildRole"
+  name = "${var.repo_name}_build_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -22,7 +22,7 @@ resource "aws_iam_role" "codebuild-role" {
 # Role for infra pipeline
 #
 resource "aws_iam_role" "codepipeline-role" {
-  name = "InfraCodePipelineRole"
+  name = "${var.repo_name}_pipeline_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -42,7 +42,7 @@ resource "aws_iam_role" "codepipeline-role" {
 # Role for terraform - this will be assumed by code build role during deployment process
 #
 resource "aws_iam_role" "terraform-role" {
-  name = "Terraform-role"
+  name = "${var.repo_name}_terraform_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

@@ -16,7 +16,7 @@ resource "aws_codepipeline" "codepipeline" {
     encryption_key {
       id   = aws_kms_key.artifacts_key.arn
       type = "KMS"
-    }    
+    }
   }
 
   stage {
