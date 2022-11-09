@@ -1,7 +1,7 @@
 #
 # Create outputs here
 #
-output bucket_name{
-   description = "Name of the created S3 bucket"
-   value = aws_s3_bucket.bucket.name
+output "some_output" {
+  description = "Description of the output"
+  value       = aws_s3_bucket.bucket.name
 }

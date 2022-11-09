@@ -1,8 +1,8 @@
 #
 # Module's input variables
 #
-variable name_prefix {
-   description = "Prefix of the bucket's name"
-   type = string
-   default = ""
+variable "name_prefix" {
+  description = "Description of the variable"
+  type        = string
+  default     = ""
 }
