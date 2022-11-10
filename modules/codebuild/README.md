@@ -4,18 +4,15 @@ This module creates codebuild project with KMS encryption key and appropriate ke
 # How do I use it?
 Simple useage:
 
-<code>
-module "infra-build" { <br>
-  &nbsp; source              = "../codebuild" <br>
-  &nbsp; codecommit_repo     = var.repo_name <br>
-  &nbsp; codebuild_role      = aws_iam_role.codebuild-role.arn <br>
-  &nbsp; buildspec_file_name = "buildspec.yml" <br>
-  &nbsp; project_name        = "infrastructure-build" <br>
+```hcl
+module "infra-build" { 
+  source              = "../codebuild" 
+  codecommit_repo     = var.repo_name
+  codebuild_role      = aws_iam_role.codebuild-role.arn 
+  buildspec_file_name = "buildspec.yml" 
+  project_name        = "infrastructure-build" 
 }
-</code>
-<br>
-<br>
-
+```
 # Inputs
 |Variable name|Required|Description|
 |-------------|--------|-----------|

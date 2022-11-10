@@ -17,9 +17,9 @@ When starting a PoC or preparing for an EBA, follow the steps below to get start
 2. Clone the new (forked) repository to your local drive
 3. Create your resoures in the **main.tf** file in the **resources** directory and deploy as normal i.e by running
 
-`
+```
    terraform apply -var my_variable=something
-`
+```
 
 4. If you would like to create a CICD pipeline in your AWS account for automatic deployment of your infrastructure, follow the instructions in the section below
 
@@ -51,6 +51,8 @@ The modules directory contains following modules:
 |-----------| ----------------------------------|
 | [bootstrap](./modules/bootstrap/README.md) | Standalone module to create Terraform state storage in S3 |
 | [cicd_infra](./modules/cicd_infra/README.md)| CodeCommit repository and build pipeline for infrastructure projects|
+| [cicd_eventbridge_trigger](./modules/cicd_eventbridge_trigger/README.md) | Eventbridge trigger to execute CodePipeline on commit in CodeCommit repository |
+| [codebuild](./modules/codebuild/README.md) | Codebuild project |
 | [s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
 
 ## Contributing

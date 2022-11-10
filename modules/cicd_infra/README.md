@@ -1,5 +1,5 @@
 # What is this module for?
-This module creates CodeCommit repository, CodePipeline and two CodeBuild projects to be used for infrastructure/terraform deployment as wel as a user account that can be used for mirroring of gitlab repositories to CodeComit. 
+This module creates CodeCommit repository, CodePipeline and two CodeBuild projects to be used for infrastructure/terraform deployment as well as a user account that can be used for mirroring of gitlab repositories to CodeComit. 
 The build projects are there to perform security check and actual deployment of the infrastructure. They expect that the source code contains **buildspec-sec.yml** file containing instructions to run the security (checkov) scan and **buildspec.yml** containing instructions to deploy the infrastructure.  
 
 # How do I use it?
