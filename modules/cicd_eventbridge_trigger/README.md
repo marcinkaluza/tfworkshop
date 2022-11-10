@@ -4,16 +4,14 @@ This module creates event bridge rule to start CodePipeline on commit in CodeCom
 # How do I use it?
 Simple usage:
 
-<code>
-module "trigger" { <br>
-  &nbsp; source           = "../cicd_eventbridge_trigger" <br>
-  &nbsp; repo_arn         = aws_codecommit_repository.infra_repo.arn <br>
-  &nbsp; codepipeline_arn = aws_codepipeline.codepipeline.arn <br>
-  &nbsp; rule_name_prefix = "${aws_codepipeline.codepipeline.name}_trigger_" <br>
+```hcl
+module "trigger" { 
+  source           = "../cicd_eventbridge_trigger" 
+  repo_arn         = aws_codecommit_repository.infra_repo.arn 
+  codepipeline_arn = aws_codepipeline.codepipeline.arn 
+  rule_name_prefix = "${aws_codepipeline.codepipeline.name}_trigger_"
 }
-</code>
-<br>
-<br>
+```
 
 # Inputs
 |Variable name|Required|Description|
