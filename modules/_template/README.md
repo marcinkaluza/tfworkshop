@@ -4,16 +4,13 @@ Provide information what is being created
 # How do I use it?
 Simple useage:
 
-<code>
-module mymodule { <br>  
-   &nbsp; source = "../modules/mymodule" <br>
-   &nbsp; arg1 = "my_bucket_" <br>
-   &nbsp; arg2 = "something else" <br>
+```hcl
+module mymodule { 
+   source = "../modules/mymodule" 
+   arg1 = "my_bucket_" 
+   arg2 = "something else" 
 }
-</code>
-<br>
-<br>
-
+```
 # Inputs
 |Variable name|Required|Description|
 |-------------|--------|-----------|
