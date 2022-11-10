@@ -56,6 +56,7 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
 # Configuring Origin Access Identity on S3 Bucket
 #
 data "aws_iam_policy_document" "origin_access_identity" {
+  count  = var.oai_iam_arn == null ? 0 : 1
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.bucket.arn}/*"]
@@ -73,5 +74,5 @@ data "aws_iam_policy_document" "origin_access_identity" {
 resource "aws_s3_bucket_policy" "website_bucket_policy" {
   count  = var.oai_iam_arn == null ? 0 : 1
   bucket = aws_s3_bucket.bucket.bucket
-  policy = data.aws_iam_policy_document.origin_access_identity.json
+  policy = data.aws_iam_policy_document.origin_access_identity[0].json
 }

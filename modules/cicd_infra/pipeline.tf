@@ -1,10 +1,16 @@
-data "aws_caller_identity" "current" {}
 
+
+#
+# Artifacts bucket
+#
 module "pipeline_bucket" {
   source      = "../s3_bucket"
   name_prefix = "${var.repo_name}-pipeline-"
 }
 
+#
+# Code pipeline
+#
 resource "aws_codepipeline" "codepipeline" {
   name     = "${var.repo_name}"
   role_arn = aws_iam_role.codepipeline-role.arn
@@ -92,3 +98,12 @@ resource "aws_codepipeline" "codepipeline" {
 
 }
 
+#
+# EventBridge rule to trigger cicd pipeline
+#
+module "trigger" {
+  source           = "../cicd_eventbridge_trigger"
+  repo_arn         = aws_codecommit_repository.infra_repo.arn
+  codepipeline_arn = aws_codepipeline.codepipeline.arn
+  rule_name_prefix = "${aws_codepipeline.codepipeline.name}_trigger_"
+}

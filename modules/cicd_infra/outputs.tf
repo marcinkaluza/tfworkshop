@@ -14,3 +14,13 @@ output "git_password" {
   value     = aws_iam_service_specific_credential.code_commit.service_password
   sensitive = true
 }
+
+output terraform_state_bucket {
+  value       = module.tf_bucket.name
+  description = "Name of terraform state bucket"
+}
+
+output terraform_lock_table {
+  value       = aws_dynamodb_table.locks.name
+  description = "Name of terraform lock table"
+}
