@@ -1,1 +1,1 @@
-target_region="eu-west-1"
+target_region = "eu-west-1"
