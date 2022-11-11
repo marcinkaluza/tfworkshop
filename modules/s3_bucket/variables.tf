@@ -16,8 +16,9 @@ variable "log_bucket" {
   default = null
 }
 
-variable "oai_iam_arn" {
+variable "access_policy" {
   type = string
-  description = "IAM arn of the Origin Access Identity"
+  description = "Access policy for the bucket (in json)"
   default = null
 }
+ 

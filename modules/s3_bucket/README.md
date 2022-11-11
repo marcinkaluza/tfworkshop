@@ -4,14 +4,12 @@ Creates S3 bucket with versioning, logging & encryption.
 # How do I use it?
 Simple useage:
 
-<code>
-module mybucket { <br>  
-   &nbsp; source = "../modules/s3_bucket" <br>
-   &nbsp; name_prefix = "my_bucket_" <br>
+```hcl
+module mybucket { 
+   source = "../modules/s3_bucket" 
+   name_prefix = "my_bucket_" 
 }
-</code>
-<br>
-<br>
+```
 
 # Inputs
 |Variable name|Required|Description|
@@ -19,6 +17,7 @@ module mybucket { <br>
 |name_prefix|Yes|Prefix of the S3 bucket name. TF will automaticaly generate bucket name using this prefix. **NOTE:** S3 bucket names do not accept uppercase characters in their names!|
 |sse_algorithm|No|By default **aws:kms** will be used. **AES256** can be specified if the bucket is to be used with CloudFront.
 |log_bucket|No|Name of the bucket where access logs are to be stored. If not specified, the bucket will store the logs with the /log prefix in itself.|
+|access_policy|No|JSON document of the bucket access policy|
 
 # Outputs
 |Output|Description|

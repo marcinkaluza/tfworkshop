@@ -3,53 +3,61 @@ locals {
   security_headers_policy = "67f7725c-6f97-4210-82d7-5512b31e9d03"
 }
 
+
+#
+# Configuring Origin Access Identity on S3 Bucket
+#
+data "aws_iam_policy_document" "access_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${module.website_bucket.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
+    }
+  }
+}
+
 #
 # S3 bucket for CloudFront distribution
 #
 module "website_bucket" {
-  source        = "../s3-bucket"
-  bucket_prefix = var.s3_bucket_prefix
+  source        = "../s3_bucket"
+  name_prefix   = var.s3_bucket_prefix
   #Encryption must be AES256 for CloudFront distribution (cf. README)
   sse_algorithm = "AES256"
-  oai_iam_arn   = aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn
+  access_policy = data.aws_iam_policy_document.access_policy.json
 }
 
 #
 # S3 bucket for CloudFront logs
 #
 module "access_log_bucket" {
-  source        = "../s3-bucket"
-  bucket_prefix = "cf-access-log-"
+  source        = "../s3_bucket"
+  name_prefix   = "cf-access-log-"
 }
 
 #
 # Origin Access Identity for Cloudfront Distribution
 #
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = module.website_bucket.bucket_name
+  comment = module.website_bucket.name
 }
 
 #
 # CloudFront Distribution
 #
-resource "aws_cloudfront_distribution" "cloudfront_distribution" {
+resource "aws_cloudfront_distribution" "distribution" {
   #checkov:skip=CKV2_AWS_32: "Ensure CloudFront distribution has a strict security headers policy attached" <- False positive
-  lifecycle {
-    ignore_changes = [
-      # ? @Marcin Should we handle aliases in here? IMO too specific to AIG...?
-      # Ignore changes to aliases as they are controlled through onboarding service
-      aliases
-    ]
-  }
-
   logging_config {
-    bucket = module.access_log_bucket.bucket_regional_domain_name
+    bucket = module.access_log_bucket.regional_domain_name
   }
 
   #S3 bucket origin
   origin {
-    domain_name = module.website_bucket.bucket_regional_domain_name
-    origin_id   = local.var.s3_bucket_prefix
+    domain_name = module.website_bucket.regional_domain_name
+    origin_id   = var.s3_bucket_prefix
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
@@ -82,7 +90,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.var.s3_bucket_prefix
+    target_origin_id = var.s3_bucket_prefix
     # Managed Security Headers Policy 
     response_headers_policy_id = local.security_headers_policy
     forwarded_values {
@@ -170,8 +178,8 @@ resource "aws_route53_record" "root_domain" {
   type    = "A"
 
   alias {
-    name                   = resource.aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = resource.aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    name                   = resource.aws_cloudfront_distribution.distribution.domain_name
+    zone_id                = resource.aws_cloudfront_distribution.distribution.hosted_zone_id
     evaluate_target_health = false
   }
 }
