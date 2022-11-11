@@ -42,10 +42,8 @@ resource "aws_iam_role_policy" "lambda_policy" {
 #
 resource "aws_lambda_function" "function" {
   #Skipping checkov checks
-  #checkov:skip=CKV_AWS_116: Don't need SQS Dead Letter Queue
-
-  #checkov:skip=CKV_AWS_173: Encryption for env variables
-  #checkov:skip=CKV_AWS_272: Code signing
+  #checkov:skip=CKV_AWS_116: "Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)"
+  #checkov:skip=CKV_AWS_173: "Check encryption settings for Lambda environmental variable"
 
   function_name = var.function_name
   description   = var.description
