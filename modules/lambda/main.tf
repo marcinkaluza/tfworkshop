@@ -43,7 +43,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
 resource "aws_lambda_function" "function" {
   #Skipping checkov checks
   #checkov:skip=CKV_AWS_116: Don't need SQS Dead Letter Queue
-  #checkov:skip=CKV_AWS_117: Lambda not in a VPC because it does not use any VPC resources
+
   #checkov:skip=CKV_AWS_173: Encryption for env variables
   #checkov:skip=CKV_AWS_272: Code signing
 
@@ -68,7 +68,8 @@ resource "aws_lambda_function" "function" {
   }
 
   vpc_config {
-    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    # If the list of security group ids and subnets are empty,
+    # this property is effectively ignored
     subnet_ids         = var.subnet_ids
     security_group_ids = var.security_group_ids
   }
