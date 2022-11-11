@@ -1,4 +1,4 @@
-output "lambda_arn" {
+output "arn" {
   value       = aws_lambda_function.function.arn
   description = "ARN of the lambda function"
 }
