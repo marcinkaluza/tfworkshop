@@ -6,10 +6,7 @@ Creates ressources for CloudFront distribution:
 - A CloudFront Distribution
 - A Route 53 record for the website
 
-
-
-**NOTE:** Why you must use AES256 encryption on the S3 bucket:
-CloudFront currently does not support KMS server-side encryption for S3. The reason this does not work is that viewer requests through CloudFront does not have access to the KMS credentials used to encrypt the s3 objects. We would recommend using signed URLs and Origin Access Identities without KMS. We are aware of this limitation and a feature request is submitted to the CloudFront team.
+**NOTE:** We use AES256 encryption on the S3 bucket as CloudFront currently does not support KMS server-side encryption for S3. The reason this does not work is that viewer requests through CloudFront does not have access to the KMS credentials used to encrypt the s3 objects. We would recommend using signed URLs and Origin Access Identities without KMS. We are aware of this limitation and a feature request is submitted to the CloudFront team.
 
 # How do I use it?
 Simple useage:
