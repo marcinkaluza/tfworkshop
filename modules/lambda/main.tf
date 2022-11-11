@@ -44,7 +44,7 @@ resource "aws_lambda_function" "function" {
   #Skipping checkov checks
   #checkov:skip=CKV_AWS_116: "Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)"
   #checkov:skip=CKV_AWS_173: "Check encryption settings for Lambda environmental variable"
-
+  #checkov:skip=CKV_AWS_272: "Ensure AWS Lambda function is configured to validate code-signing"
   function_name = var.function_name
   description   = var.description
   role          = aws_iam_role.iam_for_lambda.arn
