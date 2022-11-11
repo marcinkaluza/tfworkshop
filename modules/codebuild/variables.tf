@@ -1,8 +1,3 @@
-variable "codecommit_repo" {
-  description = "Name of the Codecommit repository"
-  type = string
-}
-
 variable "codebuild_role" {
   description = "ARN of the IAM role to be used by the codebuild"
   type = string

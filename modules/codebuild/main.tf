@@ -16,7 +16,7 @@ resource "aws_codebuild_project" "build_project" {
   }
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   logs_config {
@@ -33,8 +33,7 @@ resource "aws_codebuild_project" "build_project" {
 
   source {
     buildspec = var.buildspec_file_name
-    location  = var.codecommit_repo
-    type      = "CODECOMMIT"
+    type      = "CODEPIPELINE"
   }
 }
 

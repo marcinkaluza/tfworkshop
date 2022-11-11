@@ -7,7 +7,6 @@ Simple useage:
 ```hcl
 module "infra-build" { 
   source              = "../codebuild" 
-  codecommit_repo     = var.repo_name
   codebuild_role      = aws_iam_role.codebuild-role.arn 
   buildspec_file_name = "buildspec.yml" 
   project_name        = "infrastructure-build" 
@@ -17,7 +16,6 @@ module "infra-build" {
 |Variable name|Required|Description|
 |-------------|--------|-----------|
 |project_name|Yes|Name of the codebuild project|
-|codecommit_repo|Yes|Name of the Codecommit repository|
 |codebuild_role|Yes|ARN of the IAM role to be used by the codebuild|
 |buildspec_file_name|No|Name of the buildspec file. buildspec.yml will be used if not specified|
 |compute_type|No|Type of the compute platform to be used. BUILD_GENERAL1_SMALL will be used if not specified|

@@ -23,5 +23,5 @@ module "lambda" {
   function_name = "test"
   handler_name  = "app.handler"
   description   = "Test function"
-  resource_policy = data.aws_iam_policy_document.json
+  resource_policy = data.aws_iam_policy_document.lambda_policy.json
 } 
