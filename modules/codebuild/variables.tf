@@ -20,3 +20,4 @@ variable "compute_type" {
   default = "BUILD_GENERAL1_SMALL"
 }
 
+
