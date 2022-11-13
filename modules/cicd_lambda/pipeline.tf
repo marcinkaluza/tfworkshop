@@ -14,9 +14,9 @@ module "code_bucket" {
 # Code pipeline
 #
 resource "aws_codepipeline" "codepipeline" {
-  #checkov:skip=CKV_AWS_219: no kms cmk on artifact store
+
   name     = "${var.function_name}-pipeline"
-  role_arn = aws_iam_role.codepipeline-role.arn
+  role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
     location = module.pipeline_bucket.name
@@ -40,7 +40,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["SourceArtifacts"]
 
       configuration = {
-        RepositoryName       = var.repo_name
+        RepositoryName       = aws_codecommit_repository.repo.id
         BranchName           = "main"
         PollForSourceChanges = false
       }

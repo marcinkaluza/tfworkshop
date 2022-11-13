@@ -1,29 +1,35 @@
 # What is this module for?
-Provide information what is being created
+This module creates following resources:
+* CodeCommit repository for the lambda function code
+* CodeBuild project for the build and deployment of the lambda function
+* S3 bucket for storage of the built lambda code
+* Required roles and IAM policies
+
 
 # How do I use it?
 Simple useage:
 
 ```hcl
-module mymodule { 
-   source = "../modules/mymodule" 
-   arg1 = "my_bucket_" 
-   arg2 = "something else" 
+module lambda_pipeline {
+    source = "../modules/cicd_lambda"
+    function_name = "image-service"
+    function_arn = module.lambda.arn
 }
 ```
 # Inputs
 |Variable name|Required|Description|
 |-------------|--------|-----------|
-|required_var1|Yes|Explain use of the variable|
-|optional_var1|No|Explain what happens when both specified and not specified|
+|function_name|Yes|Name of the lambda function|
+|function_arn|Yes|ARN of the lambda function|
 
 # Outputs
 |Output|Description|
 |---|---|
-|out1|What does this opuptut contain?|
 
 # Ignored checkov warnings
 
 |Warning|Description|Reason|
 |---|---|---|
-|CKV_AWS_XXX|Include checkov warning text| Explain why ignored|
+|CKV2_AWS_37|Ensure Codecommit associates an approval rule| Surplus to requirements as CodeCommit repo is used only as a target for mirroring gitlab repo|
+|CKV_AWS_111|Ensure IAM policies does not allow write access without constraints|KMS key resource policy allows acess for the account root for all operations as per SOP|
+|CKV_AWS_109|Ensure IAM policies does not allow permissions management / resource exposure without constraints|KMS key resource policy allows acess for the account root for all operations as per SOP|

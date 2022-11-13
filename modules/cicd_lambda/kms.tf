@@ -4,7 +4,7 @@ data "aws_region" "current" {}
 # Encryption key
 #
 resource "aws_kms_key" "artifacts_key" {
-  description             = "${var.repo_name}-kmskey"
+  description             = "${var.function_name}-kmskey"
   deletion_window_in_days = 10
   enable_key_rotation     = true
   policy                  = data.aws_iam_policy_document.policy.json
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "policy" {
     resources = ["*"]
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.id}:root"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
   }
 
@@ -40,7 +40,10 @@ data "aws_iam_policy_document" "policy" {
     resources = ["*"]
     principals {
       type        = "AWS"
-      identifiers = [aws_iam_role.codepipeline-role.arn, aws_iam_role.codebuild-role.arn]
+      identifiers = [
+        aws_iam_role.codepipeline_role.arn, 
+        aws_iam_role.codebuild_role.arn
+      ]
     }
   }
 }

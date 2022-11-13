@@ -1,8 +1,8 @@
 #
-# Role for infra project code build
+# Role for code build
 #
-resource "aws_iam_role" "codebuild-role" {
-  name = "${var.repo_name}_build_role"
+resource "aws_iam_role" "codebuild_role" {
+  name = "${var.function_name}_build_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -19,10 +19,10 @@ resource "aws_iam_role" "codebuild-role" {
 }
 
 #
-# Role for infra pipeline
+# Role for the pipeline
 #
-resource "aws_iam_role" "codepipeline-role" {
-  name = "${var.repo_name}_pipeline_role"
+resource "aws_iam_role" "codepipeline_role" {
+  name = "${var.function_name}_pipeline_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

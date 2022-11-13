@@ -1,15 +1,13 @@
 #
 # Module's input variables
 #
-variable "repo_name" {
-  type = string
-}
-
-variable "lambda_arn" {
-  type = string
+variable "function_arn" {
+  type        = string
+  description = "ARN of the lambda function"
 }
 
 variable "function_name" {
-  type = string
+  type        = string
+  description = "Name of the lambda function"
 }
 

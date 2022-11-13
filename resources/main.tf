@@ -29,6 +29,5 @@ module "lambda" {
 module lambda_pipeline {
     source = "../modules/cicd_lambda"
     function_name = "test"
-    lambda_arn = module.lambda.arn
-    repo_name = "test-repo"
+    function_arn = module.lambda.arn
 }

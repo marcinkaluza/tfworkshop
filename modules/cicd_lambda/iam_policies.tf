@@ -1,17 +1,20 @@
+#
+# Policy allowing deployment of the lambda function
+#
 data "aws_iam_policy_document" "lambda_access" {
-    statement {
-      resources = [var.lambda_arn]
-      actions = [
-        "lambda:UpdateFunctionCode", 
-        "lambda:PublishVersion", 
-        "lambda:GetFunction", 
-        "lambda:UpdateAlias" ]
-      effect = "Allow" 
+  statement {
+    resources = [var.function_arn]
+    actions = [
+      "lambda:UpdateFunctionCode",
+      "lambda:PublishVersion",
+      "lambda:GetFunction",
+    "lambda:UpdateAlias"]
+    effect = "Allow"
   }
 }
 
-resource aws_iam_role_policy lambda_access {
-  role = aws_iam_role.codebuild-role.name
+resource "aws_iam_role_policy" "lambda_access" {
+  role   = aws_iam_role.codebuild_role.name
   policy = data.aws_iam_policy_document.lambda_access.json
 }
 
@@ -25,7 +28,7 @@ resource "aws_iam_policy" "s3_artifacts_policy" {
       Statement : [
         {
           Resource : [
-            "${module.pipeline_bucket.arn}", 
+            "${module.pipeline_bucket.arn}",
             "${module.pipeline_bucket.arn}/*"
           ]
           Action : [
@@ -34,18 +37,18 @@ resource "aws_iam_policy" "s3_artifacts_policy" {
           "s3:Put*"]
           Effect : "Allow"
         },
-        {     
+        {
           Resource : [
-            "${module.code_bucket.arn}", 
+            "${module.code_bucket.arn}",
             "${module.code_bucket.arn}/*"
           ]
           Action : [
             "s3:Get*",
             "s3:List*",
             "s3:Put*"
-            ]
+          ]
           Effect : "Allow"
-        }        
+        }
       ]
   })
 }
@@ -69,7 +72,7 @@ resource "aws_iam_policy" "codecommit_policy" {
 
 resource "aws_iam_role_policy" "codebuild_policy" {
   name = "codebuild_policy"
-  role = aws_iam_role.codepipeline-role.name
+  role = aws_iam_role.codepipeline_role.name
 
   policy = jsonencode(
     {
@@ -89,7 +92,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 
 resource "aws_iam_role_policy" "cloudwatch_logs" {
   name = "logs_policy"
-  role = aws_iam_role.codebuild-role.name
+  role = aws_iam_role.codebuild_role.name
 
   policy = jsonencode(
     {
@@ -107,22 +110,22 @@ resource "aws_iam_role_policy" "cloudwatch_logs" {
 
 #
 resource "aws_iam_role_policy_attachment" "cp_attach_policy_cc" {
-  role       = aws_iam_role.codepipeline-role.name
+  role       = aws_iam_role.codepipeline_role.name
   policy_arn = aws_iam_policy.s3_artifacts_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "cb_attach_policy_cc" {
-  role       = aws_iam_role.codebuild-role.name
+  role       = aws_iam_role.codebuild_role.name
   policy_arn = aws_iam_policy.s3_artifacts_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "cp_attach_policy_s3" {
-  role       = aws_iam_role.codepipeline-role.name
+  role       = aws_iam_role.codepipeline_role.name
   policy_arn = aws_iam_policy.codecommit_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "cb_attach_policy_s3" {
-  role       = aws_iam_role.codebuild-role.name
+  role       = aws_iam_role.codebuild_role.name
   policy_arn = aws_iam_policy.codecommit_policy.arn
 }
 ####
@@ -136,12 +139,12 @@ data "aws_iam_policy" "codepipeline_full_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "cb_attach_policy" {
-  role       = aws_iam_role.codebuild-role.name
+  role       = aws_iam_role.codebuild_role.name
   policy_arn = data.aws_iam_policy.codebuild_dev_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "cp_attach_policy" {
-  role       = aws_iam_role.codepipeline-role.name
+  role       = aws_iam_role.codepipeline_role.name
   policy_arn = data.aws_iam_policy.codepipeline_full_policy.arn
 }
 
