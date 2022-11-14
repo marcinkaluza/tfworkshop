@@ -58,6 +58,8 @@ The modules included in this project come into three flavours:
 |-----------| ----------------------------------|
 |[s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
 |[cloudfront_distribution](./modules/cloudfront-distribution/README.md)|Cloudfront distribution with an S3 bucket and optional API origin|
+|[cicd_lambda](./modules/cicd_lambda/README.md)|CICD pipeline and related resources for build and deployment of lambda functions|
+
 
 ### Low level modules
 | Module    | Description |
