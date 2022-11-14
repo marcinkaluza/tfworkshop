@@ -32,7 +32,7 @@ module "website_bucket" {
 
 #
 # S3 bucket for CloudFront logs
-#
+#? Add var.s3_bucket_prefix to the name_prefix of the log bucket?
 module "access_log_bucket" {
   source        = "../s3_bucket"
   name_prefix   = "cf-access-log-"

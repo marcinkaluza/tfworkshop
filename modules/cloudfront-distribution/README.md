@@ -28,14 +28,14 @@ module "cloudfront-distribution" {
 # Inputs
 |Variable name|Required|Description|
 |-------------|--------|-----------|
-|acm_certificate_arn|Yes||
-|s3_bucket_prefix|Yes||
-|cloudfront_alias|Yes||
-|r53_zone_id|Yes||
-|apigw_origin_enabled|Yes||
-|api_domain_name|Yes||
-|api_origin_id|Yes||
-|web_acl_id|Yes||
+|acm_certificate_arn|Yes|The ARN of the ACM certificate you wish to use with this distribution. The ACM certificate **MUST BE IN US-EAST-1**|
+|s3_bucket_prefix|Yes|Name of the bucket prefix|
+|cloudfront_alias|No|Extra CNAMEs (alternate domain names), if any, for this distribution.|
+|r53_zone_id|Yes|Hosted zone ID for the CloudFront distribution.|
+|apigw_origin_enabled|No|true or false|
+|api_domain_name|No|Optional: API GW domain name only if apigw_origin_enabled is set to true|
+|api_origin_id|No|Optional: API GW origin only if apigw_origin_enabled is set to true|
+|web_acl_id|No|Optional: A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution.|
 
 # Outputs
 |Output|Description|
@@ -52,4 +52,6 @@ module "cloudfront-distribution" {
 
 |Warning|Description|Reason|
 |---|---|---|
-||||
+|CKV2-AWS-32|Ensure CloudFront distribution has a strict security headers policy attached.| False positive as we are using Managed Security Headers Policy. For more information see https://github.com/bridgecrewio/checkov/issues/2873
+
+
