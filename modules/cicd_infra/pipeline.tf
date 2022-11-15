@@ -12,7 +12,7 @@ module "pipeline_bucket" {
 # Code pipeline
 #
 resource "aws_codepipeline" "codepipeline" {
-  name     = "${var.repo_name}"
+  name     = var.repo_name
   role_arn = aws_iam_role.codepipeline-role.arn
 
   artifact_store {
@@ -20,7 +20,7 @@ resource "aws_codepipeline" "codepipeline" {
     type     = "S3"
 
     encryption_key {
-      id   = aws_kms_key.artifacts_key.arn
+      id   = module.artifacts_key.arn
       type = "KMS"
     }
   }

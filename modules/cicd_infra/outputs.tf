@@ -15,12 +15,12 @@ output "git_password" {
   sensitive = true
 }
 
-output terraform_state_bucket {
+output "terraform_state_bucket" {
   value       = module.tf_bucket.name
   description = "Name of terraform state bucket"
 }
 
-output terraform_lock_table {
+output "terraform_lock_table" {
   value       = aws_dynamodb_table.locks.name
   description = "Name of terraform lock table"
 }

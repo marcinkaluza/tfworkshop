@@ -5,7 +5,7 @@ resource "aws_codebuild_project" "build_project" {
   build_timeout  = 60
   name           = var.project_name
   service_role   = var.codebuild_role
-  encryption_key = aws_kms_key.key.arn
+  encryption_key = module.key.arn
 
   environment {
     compute_type                = var.compute_type

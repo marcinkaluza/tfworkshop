@@ -77,5 +77,4 @@ Take note of gitlab-user credentials necessary to setup mirroring of your gitlab
 |---|---|---|
 |CKV_AWS_40|Ensure IAM policies are attached only to groups or roles (Reducing access management complexity may in-turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.)|Policies attached to gitlab-user account to allow access to CodeCommit repo (for mirroring purposes)
 |CKV2_AWS_37|Ensure Codecommit associates an approval rule|Surplus to requirements as we use gitlab as primary source control tool|
-|CKV_AWS_111|Ensure IAM policies does not allow write access without constraints|KMS key resource policy allows acess for the account root for all operations as per SOP|
-|CKV_AWS_109|Ensure IAM policies does not allow permissions management / resource exposure without constraints|KMS key resource policy allows acess for the account root for all operations as per SOP|
+

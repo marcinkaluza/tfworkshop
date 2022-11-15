@@ -4,11 +4,12 @@ data "aws_region" "current" {}
 #
 # Encryption key
 #
-resource "aws_kms_key" "key" {
-  description             = "${var.project_name}-kmskey"
-  deletion_window_in_days = 10
-  enable_key_rotation     = true
-  policy                  = data.aws_iam_policy_document.policy.json
+
+module key {
+  source = "../kms"
+  description = "KMS key for the ${var.project_name} CodeBuild project"
+  alias = "codebuild/${var.project_name}"
+  key_policy = data.aws_iam_policy_document.policy.json
 }
 
 #

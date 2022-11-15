@@ -1,9 +1,9 @@
 #
 # S3 Bucket for terraform state storage
 #
-module tf_bucket {
-   source = "../s3_bucket"
-   name_prefix = "tf-state-"
+module "tf_bucket" {
+  source      = "../s3_bucket"
+  name_prefix = "tf-state-"
 }
 
 #
