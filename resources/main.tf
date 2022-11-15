@@ -1,6 +1,6 @@
 module "sample" {
   source      = "../modules/s3_bucket"
-  name_prefix = "dummy-"
+  name_prefix = "test-bucket-"
 }
 
 data "aws_iam_policy_document" "lambda_policy" {
@@ -30,4 +30,13 @@ module lambda_pipeline {
     source = "../modules/cicd_lambda"
     function_name = "test"
     function_arn = module.lambda.arn
+}
+
+data aws_caller_identity current {}
+
+module kms {
+  source = "../modules/kms"
+  alias = "cmk/Test"
+  description = "Test KMS key"
+  roles = [data.aws_caller_identity.current.arn]
 }
