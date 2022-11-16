@@ -40,3 +40,7 @@ module kms {
   description = "Test KMS key"
   roles = [data.aws_caller_identity.current.arn]
 }
+
+module api_logging {
+  source = "../modules/apigateway_logging"
+}
