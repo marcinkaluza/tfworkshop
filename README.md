@@ -60,6 +60,7 @@ The modules included in this project come into three flavours:
 |[cloudfront_distribution](./modules/cloudfront-distribution/README.md)|Cloudfront distribution with an S3 bucket and optional API origin|
 |[cicd_lambda](./modules/cicd_lambda/README.md)|CICD pipeline and related resources for build and deployment of lambda functions|
 [kms](./modules/kms/README.md)|KMS key, alias and default access policy|
+|[apigateway_logging](./modules/apigateway_logging/README.md)|IAM role and account to enable API gateway access to CloudWatch|
 
 
 ### Low level modules
