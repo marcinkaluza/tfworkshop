@@ -11,14 +11,14 @@ variable "sse_algorithm" {
 }
 
 variable "log_bucket" {
-  type = string
+  type        = string
   description = "Target bucket for access logs (optional). If not provided, bucket will store log in itself"
-  default = null
+  default     = null
 }
 
 variable "access_policy" {
-  type = string
+  type        = string
   description = "Access policy for the bucket (in json)"
-  default = null
+  default     = null
 }
  

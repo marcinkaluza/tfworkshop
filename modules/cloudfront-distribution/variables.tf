@@ -1,14 +1,17 @@
 variable "acm_certificate_arn" {
-  type = string
+  type        = string
+  description = "ARN of the ACM certificate"
 }
 
 variable "s3_bucket_prefix" {
-  type = string
+  type        = string
+  description = "Name of the S3 bucket prefix"
 }
 
 variable "cloudfront_alias" {
-  type    = string
-  default = null
+  type        = string
+  description = "CloudFront distribution Alias (if any)"
+  default     = null
 }
 
 variable "r53_zone_id" {
