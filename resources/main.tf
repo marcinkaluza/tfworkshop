@@ -1,3 +1,10 @@
+#
+# Route53 Hosted Zone
+# 
+resource "aws_route53_zone" "dev" {
+  name         = "reusable-tf-assets.com"
+}
+
 module "sample" {
   source      = "../modules/s3_bucket"
   name_prefix = "test-bucket-"
@@ -19,12 +26,12 @@ data "aws_iam_policy_document" "lambda_policy" {
 }
 
 module "lambda" {
-  source = "../modules/lambda"
-  function_name = "test"
-  handler_name  = "app.lambda_handler"
-  description   = "Test function"
+  source          = "../modules/lambda"
+  function_name   = "test"
+  handler_name    = "app.lambda_handler"
+  description     = "Test function"
   resource_policy = data.aws_iam_policy_document.lambda_policy.json
-} 
+}
 
 module lambda_pipeline {
     source = "../modules/cicd_lambda"

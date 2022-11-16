@@ -23,8 +23,8 @@ data "aws_iam_policy_document" "access_policy" {
 # S3 bucket for CloudFront distribution
 #
 module "website_bucket" {
-  source        = "../s3_bucket"
-  name_prefix   = var.s3_bucket_prefix
+  source      = "../s3_bucket"
+  name_prefix = var.s3_bucket_prefix
   #Encryption must be AES256 for CloudFront distribution (cf. README)
   sse_algorithm = "AES256"
   access_policy = data.aws_iam_policy_document.access_policy.json
@@ -34,8 +34,8 @@ module "website_bucket" {
 # S3 bucket for CloudFront logs
 #? Add var.s3_bucket_prefix to the name_prefix of the log bucket?
 module "access_log_bucket" {
-  source        = "../s3_bucket"
-  name_prefix   = "cf-access-log-"
+  source      = "../s3_bucket"
+  name_prefix = "cf-access-log-"
 }
 
 #
