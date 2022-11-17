@@ -8,18 +8,26 @@ variable "api_spec" {
   description = "OPEN API Specification of the API"
 }
 
-# variable "api_domain_name" {
-#   type        = string
-#   description = "API custom domain name"
-# }
-
-# variable "r53_zone_id" {
-#   type        = string
-#   description = "R53 zone id"
-# }
-
 variable "user_pool_arn" {
   type        = string
   default     = null
   description = "Cognito user pool ARN"
+}
+
+variable "api_domain_name" {
+  type        = string
+  description = "API custom domain name"
+  default     = null
+}
+
+variable "r53_zone_id" {
+  type        = string
+  description = "R53 zone id"
+  default     = null
+}
+
+variable "certificate_arn" {
+  type        = string
+  description = "ARN of the certificate to be used"
+  default     = null
 }
