@@ -8,7 +8,7 @@ data "aws_region" "current" {}
 module "key" {
   source      = "../../kms"
   description = "KMS key for the API gateway logs"
-  alias       = "cloudwatch/api/${var.api_id}"
+  alias       = "cloudwatch/api/${var.api_id}/${var.stage_name}"
   key_policy  = data.aws_iam_policy_document.policy.json
 }
 

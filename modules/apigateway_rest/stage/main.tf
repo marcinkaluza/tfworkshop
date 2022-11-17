@@ -19,14 +19,9 @@ resource "aws_api_gateway_deployment" "deployment" {
 }
 
 #
-# Cloud watch log groups for execution and access logs
+# Cloud watch log groups for access logs. 
+# NOTE: Execution logs log groups are created automatically
 #
-resource "aws_cloudwatch_log_group" "execution_logs" {
-  name              = "api/${var.api_id}/${var.stage_name}/execution"
-  retention_in_days = 7
-  kms_key_id        = module.key.arn
-  # ... potentially other configuration ...
-}
 
 resource "aws_cloudwatch_log_group" "access_logs" {
   name              = "api/${var.api_id}/${var.stage_name}/acccess"
@@ -39,7 +34,6 @@ resource "aws_cloudwatch_log_group" "access_logs" {
 # Stage
 #
 resource "aws_api_gateway_stage" "stage" {
-  depends_on = [aws_cloudwatch_log_group.execution_logs]
   #Skipping checkov checks
   #checkov:skip=CKV_AWS_120: "Ensure API Gateway caching is enabled"
   deployment_id        = aws_api_gateway_deployment.deployment.id
@@ -81,7 +75,7 @@ resource "aws_api_gateway_method_settings" "prod" {
 
   settings {
     metrics_enabled = true
-    logging_level   = "ERROR"
+    logging_level   = "INFO"
   }
 }
 

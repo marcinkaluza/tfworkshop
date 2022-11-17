@@ -65,10 +65,6 @@ module api {
         "/api/hello" = {
         get = {
           produces = ["application/json"]
-          security = [
-            {
-              Lambda = []
-          }],
           x-amazon-apigateway-integration = {
             httpMethod           = "POST"
             payloadFormatVersion = "1.0"
@@ -90,7 +86,7 @@ module api {
               "2\\d{2}" = {
                 statusCode = "200",
                 responseTemplates = {
-                  "application/json" = "{ \"someCode\": 200}"
+                  "application/json" = "{ \"someCode\": 200\n }"
                 }
               }
             },
