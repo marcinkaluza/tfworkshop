@@ -65,7 +65,7 @@ The modules included in this project come into three flavours:
 
 ### Low level modules
 | Module    | Description |
-|-----------| ----------------------------------|
+|-----------|----------------------------------|
 | [cicd_eventbridge_trigger](./modules/cicd_eventbridge_trigger/README.md) | Eventbridge trigger to execute CodePipeline on commit in CodeCommit repository |
 | [codebuild](./modules/codebuild/README.md) | Codebuild project |
 
