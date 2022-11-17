@@ -22,16 +22,16 @@ resource "aws_api_gateway_deployment" "deployment" {
 # Cloud watch log groups for execution and access logs
 #
 resource "aws_cloudwatch_log_group" "execution_logs" {
-  #checkov:skip=CKV_AWS_158: No need for encryption
   name              = "api/${var.api_id}/${var.stage_name}/execution"
   retention_in_days = 7
+  kms_key_id        = module.key.arn
   # ... potentially other configuration ...
 }
 
 resource "aws_cloudwatch_log_group" "access_logs" {
-  #checkov:skip=CKV_AWS_158: No need for encryption
   name              = "api/${var.api_id}/${var.stage_name}/acccess"
   retention_in_days = 7
+  kms_key_id        = module.key.arn
   # ... potentially other configuration ...
 }
 
@@ -41,7 +41,7 @@ resource "aws_cloudwatch_log_group" "access_logs" {
 resource "aws_api_gateway_stage" "stage" {
   depends_on = [aws_cloudwatch_log_group.execution_logs]
   #Skipping checkov checks
-  #checkov:skip=CKV_AWS_120: No need for caching
+  #checkov:skip=CKV_AWS_120: "Ensure API Gateway caching is enabled"
   deployment_id        = aws_api_gateway_deployment.deployment.id
   rest_api_id          = var.api_id
   stage_name           = var.stage_name
@@ -74,8 +74,7 @@ resource "aws_api_gateway_stage" "stage" {
 # Enable logging at error level
 #
 resource "aws_api_gateway_method_settings" "prod" {
-  #checkov:skip=CKV_AWS_225: No caching on API methods
-  //  depends_on  = [aws_api_gateway_account.api]
+  #checkov:skip=CKV_AWS_225: "Ensure API Gateway method setting caching is enabled"
   rest_api_id = var.api_id
   stage_name  = aws_api_gateway_stage.stage.stage_name
   method_path = "*/*"

@@ -1,9 +1,9 @@
 #
 # Route53 Hosted Zone
 # 
-resource "aws_route53_zone" "dev" {
-  name         = "reusable-tf-assets.com"
-}
+# resource "aws_route53_zone" "dev" {
+#   name         = "reusable-tf-assets.com"
+# }
 
 module "sample" {
   source      = "../modules/s3_bucket"
