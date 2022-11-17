@@ -54,7 +54,7 @@ module api_logging {
 
 module api {
   source = "../modules/apigateway_rest"
-  api_name = "Test API"
+  api_name = "Test-API"
   api_spec = jsonencode({
     openapi = "3.0.1"
     info = {

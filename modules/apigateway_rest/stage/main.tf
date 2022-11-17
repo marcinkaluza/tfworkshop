@@ -24,7 +24,7 @@ resource "aws_api_gateway_deployment" "deployment" {
 #
 
 resource "aws_cloudwatch_log_group" "access_logs" {
-  name              = "api/${var.api_id}/${var.stage_name}/acccess"
+  name              = "/api/${var.api_id}/${var.stage_name}"
   retention_in_days = 7
   kms_key_id        = module.key.arn
   # ... potentially other configuration ...
@@ -79,7 +79,10 @@ resource "aws_api_gateway_method_settings" "prod" {
   }
 }
 
-
+resource "aws_wafv2_web_acl_association" "prod_stage" {
+  resource_arn = aws_api_gateway_stage.stage.arn
+  web_acl_arn  = var.waf_acl_arn
+}
 
 
 
