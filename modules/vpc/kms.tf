@@ -3,7 +3,7 @@
 #
 module "key" {
   source      = "../kms"
-  alias       = "/vpc/logs"
+  alias       = "/vpc/logs/${aws_vpc.main.id}"
   description = "KMS Key to encrypt VPC CloudWatch Log group"
   key_policy  = data.aws_iam_policy_document.vpc_log_group_kms_policy.json
 }
