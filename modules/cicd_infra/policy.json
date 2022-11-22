@@ -219,7 +219,12 @@
                 "codecommit:DeleteRepository",
                 "organizations:Describe*",
                 "organizations:List*",
-                "ecr:ListTagsForResource"
+                "ecr:ListTagsForResource",
+                "ec2:Create*",
+                "ec2:Delete*",
+                "ec2:Update*",
+                "ec2:Get*",
+                "ec2:Describe*"
             ],
             "Resource": "*"
         }
