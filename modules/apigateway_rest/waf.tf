@@ -3,7 +3,7 @@
 #
 resource "aws_wafv2_web_acl" "acl" {
   #checkov:skip=CKV2_AWS_31: no logging configuration
-  name  = "${var.api_name}-apigw-web-acl-association"
+  name  = "${var.api_name}-apigw-web-acl"
   scope = "REGIONAL"
 
   default_action {
@@ -12,7 +12,7 @@ resource "aws_wafv2_web_acl" "acl" {
 
   visibility_config {
     cloudwatch_metrics_enabled = true
-    metric_name                = "friendly-metric-name"
+    metric_name                = "all-rules"
     sampled_requests_enabled   = true
   }
 
@@ -33,15 +33,9 @@ resource "aws_wafv2_web_acl" "acl" {
 
     visibility_config {
       cloudwatch_metrics_enabled = false
-      metric_name                = "friendly-rule-metric-name"
+      metric_name                = "bad-inputs"
       sampled_requests_enabled   = false
     }
   }
 }
 
-
-
-# resource "aws_wafv2_web_acl_association" "test_stage" {
-#   resource_arn = aws_api_gateway_stage.test.arn
-#   web_acl_arn  = aws_wafv2_web_acl.apigw.arn
-# }
