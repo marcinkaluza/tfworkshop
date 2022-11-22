@@ -98,5 +98,6 @@ resource "aws_lambda_permission" "api_access" {
 |---|---|---|
 |CKV_AWS_225|Ensure API Gateway method setting caching is enabled|No caching to ensure strong consistency.|
 |CKV_AWS_120|Ensure API Gateway caching is enabled|No caching to ensure strong consistency.|
+|CKV2_AWS_31|Ensure WAF2 has a Logging Configuration|Surplus to requirements|
 |CKV_AWS_111|Ensure IAM policies does not allow write access without constraints|False positive. Policy as per [documentation](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)|
 |CKV_AWS_109|Ensure IAM policies does not allow permissions management / resource exposure without constraints|False positive. Policy as per [documentation](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)|

@@ -2,7 +2,7 @@
 # WAF association
 #
 resource "aws_wafv2_web_acl" "acl" {
-  #checkov:skip=CKV2_AWS_31: no logging configuration
+  #checkov:skip=CKV2_AWS_31: "Ensure WAF2 has a Logging Configuration"
   name  = "${var.api_name}-apigw-web-acl"
   scope = "REGIONAL"
 
