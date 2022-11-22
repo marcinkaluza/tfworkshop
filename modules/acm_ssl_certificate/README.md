@@ -8,7 +8,7 @@ Simple useage:
 
 ```hcl
 module "acm-ssl-certificate" {
- source               = "./modules/acm-ssm-certificate" 
+ source               = "./modules/acm_ssl_certificate" 
  r53_zone_id          = "aws_route53_zone_id"
  domaine_name         = "myDomain"
 }

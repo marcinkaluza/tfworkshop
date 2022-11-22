@@ -56,6 +56,7 @@ The modules included in this project come into three flavours:
 
 | Module    | Description |
 |-----------| ----------------------------------|
+|[acm_ssl_certificate](./modules/acm_ssl_certificate/README.md)|SSL certificate|
 |[apigateway_logging](./modules/apigateway_logging/README.md)|IAM role and account to enable API gateway access to CloudWatch|
 |[apigateway_rest](./modules/apigateway_rest/README.md)|REST API with two stages, logs and deployments|
 |[cicd_lambda](./modules/cicd_lambda/README.md)|CICD pipeline and related resources for build and deployment of lambda functions|
