@@ -54,7 +54,11 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
 }
 
 #
-# Dummy access policy 
+# Dummy access policy. We need it to allow the user of this module to provide 
+# custom policy (valid use case for CloudFront, VPC logs etc) . 
+# The policy below is pretty benign, denying access to the bucket over HTTP, 
+# which would only happen in case of static website hosting on S3 (and we would 
+# not support it anyway).
 #
 data "aws_iam_policy_document" "policy" {
   statement {
