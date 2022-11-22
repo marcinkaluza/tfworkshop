@@ -33,27 +33,27 @@ module "lambda" {
   resource_policy = data.aws_iam_policy_document.lambda_policy.json
 }
 
-module lambda_pipeline {
-    source = "../modules/cicd_lambda"
-    function_name = "test"
-    function_arn = module.lambda.arn
+module "lambda_pipeline" {
+  source        = "../modules/cicd_lambda"
+  function_name = "test"
+  function_arn  = module.lambda.arn
 }
 
-data aws_caller_identity current {}
+data "aws_caller_identity" "current" {}
 
-module kms {
-  source = "../modules/kms"
-  alias = "cmk/Test"
+module "kms" {
+  source      = "../modules/kms"
+  alias       = "cmk/Test"
   description = "Test KMS key"
-  roles = [data.aws_caller_identity.current.arn]
+  roles       = [data.aws_caller_identity.current.arn]
 }
 
-module api_logging {
+module "api_logging" {
   source = "../modules/apigateway_logging"
 }
 
-module api {
-  source = "../modules/apigateway_rest"
+module "api" {
+  source   = "../modules/apigateway_rest"
   api_name = "Test-API"
   api_spec = jsonencode({
     openapi = "3.0.1"
@@ -62,7 +62,7 @@ module api {
       version = "1.0"
     },
     paths = {
-        "/api/hello" = {
+      "/api/hello" = {
         get = {
           produces = ["application/json"]
           x-amazon-apigateway-integration = {
@@ -72,7 +72,7 @@ module api {
             uri                  = "arn:aws:apigateway:${var.target_region}:lambda:path/2015-03-31/functions/${module.lambda.arn}:$${stageVariables.lambdaAlias}/invocations"
           }
         }
-      } 
+      }
       "/api/mock" = {
         get = {
           responses = {
@@ -97,7 +97,7 @@ module api {
             type                = "mock"
           }
         }
-      }    
+      }
     }
     components = {
       # securitySchemes = {
@@ -131,3 +131,14 @@ resource "aws_lambda_permission" "prod_alias_access" {
   source_arn    = "${module.api.execution_arn}/*/*/*"
   qualifier     = each.key
 }
+
+module "vpc" {
+  source                      = "../modules/vpc"
+  name                        = "Main VPC"
+  cidr_block                  = "10.0.0.0/16"
+  public_subnets_cidr_blocks  = ["10.0.1.0/24", "10.0.3.0/24", "10.0.5.0/24"]
+  private_subnets_cidr_blocks = ["10.0.2.0/24", "10.0.4.0/24", "10.0.6.0/24"]
+  interface_endpoint_services = ["ec2", "logs"]
+  gateway_endpoint_services   = ["s3"]
+}
+

@@ -56,12 +56,14 @@ The modules included in this project come into three flavours:
 
 | Module    | Description |
 |-----------| ----------------------------------|
-|[s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
-|[cloudfront_distribution](./modules/cloudfront-distribution/README.md)|Cloudfront distribution with an S3 bucket and optional API origin|
-|[cicd_lambda](./modules/cicd_lambda/README.md)|CICD pipeline and related resources for build and deployment of lambda functions|
-[kms](./modules/kms/README.md)|KMS key, alias and default access policy|
 |[apigateway_logging](./modules/apigateway_logging/README.md)|IAM role and account to enable API gateway access to CloudWatch|
 |[apigateway_rest](./modules/apigateway_rest/README.md)|REST API with two stages, logs and deployments|
+|[cicd_lambda](./modules/cicd_lambda/README.md)|CICD pipeline and related resources for build and deployment of lambda functions|
+|[cloudfront_distribution](./modules/cloudfront-distribution/README.md)|Cloudfront distribution with an S3 bucket and optional API origin|
+|[kms](./modules/kms/README.md)|KMS key, alias and default access policy|
+|[lambda](./modules/lambda/README.md)|Lambda function with prod and test aliases|
+|[s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
+|[vpc](./modules/vpc/README.md)|VPC, private and public subnets, service endpoints
 
 
 ### Low level modules
