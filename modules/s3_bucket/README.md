@@ -18,6 +18,7 @@ module mybucket {
 |sse_algorithm|No|By default **aws:kms** will be used. **AES256** can be specified if the bucket is to be used with CloudFront.
 |log_bucket|No|Name of the bucket where access logs are to be stored. If not specified, the bucket will store the logs with the /log prefix in itself.|
 |access_policy|No|JSON document of the bucket access policy|
+|kms_key_id|No|Id of the KMS key to use for encryption|
 
 # Outputs
 |Output|Description|

@@ -21,4 +21,9 @@ variable "access_policy" {
   description = "Access policy for the bucket (in json)"
   default     = null
 }
- 
+
+variable "kms_key_id" {
+  type        = string
+  description = "Optional ID of the KMS key"
+  default     = null
+}
