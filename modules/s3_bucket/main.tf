@@ -53,12 +53,34 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
   restrict_public_buckets = true
 }
 
+#
+# Dummy access policy 
+#
+data "aws_iam_policy_document" "policy" {
+  statement {
+    sid       = "DenyNonHttpsTrafic"
+    effect    = "Deny"
+    actions   = ["s3:*"]
+    resources = [
+      aws_s3_bucket.bucket.arn,
+     "${aws_s3_bucket.bucket.arn}/*"
+    ]
+    principals {
+      type = "*"
+      identifiers = ["*"]
+    }
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = [false]
+    }
+  }
+}
 
 #
 # Attaching policy to the bucket
 #
-resource "aws_s3_bucket_policy" "website_bucket_policy" {
-  count  = var.access_policy == null ? 0 : 1
+resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.bucket.bucket
-  policy = var.access_policy
+  policy = coalesce(var.access_policy, data.aws_iam_policy_document.policy.json)
 }
