@@ -9,7 +9,7 @@ This module creates following resources:
 * Optionally interface and/or gateway endpoints for AWS services
 
 # How do I use it?
-Simple useage:
+Public and private subnets with internet egress allowed from private subnets:
 
 ```hcl
 module "vpc" {
@@ -18,8 +18,21 @@ module "vpc" {
   cidr_block                  = "10.0.0.0/16"
   public_subnets_cidr_blocks  = ["10.0.1.0/24", "10.0.3.0/24", "10.0.5.0/24"]
   private_subnets_cidr_blocks = ["10.0.2.0/24", "10.0.4.0/24", "10.0.6.0/24"]
+}
+```
+
+Private subnets only, no internet egress:
+
+```hcl
+module "vpc" {
+  source                      = "../modules/vpc"
+  name                        = "Main VPC"
+  cidr_block                  = "10.0.0.0/16"
+  public_subnets_cidr_blocks  = []
+  private_subnets_cidr_blocks = ["10.0.2.0/24", "10.0.4.0/24", "10.0.6.0/24"]
   interface_endpoint_services = ["ec2", "logs"]
   gateway_endpoint_services   = ["s3"]
+  allow_internet_egress       = false
 }
 ```
 # Inputs
