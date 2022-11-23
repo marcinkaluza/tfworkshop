@@ -29,3 +29,9 @@ variable "gateway_endpoint_services" {
   description = "List of services for which private gateway endpoints are to be created. Supports only s3 and dynamodb"
   default     = []
 }
+
+variable "allow_internet_egress" {
+  type        = bool
+  description = "Set to true to allow internet egress from private subnets"
+  default     = true
+}

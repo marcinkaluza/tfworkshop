@@ -27,8 +27,9 @@ module "vpc" {
 |-------------|--------|-----------|
 |name|Yes|Explain use of the variable|
 |cidr_block|Yes|CIDR block for the VPC|
-|public_subnets_cidr_blocks|Yes|List of CIDR blocks for the public subnets|
-|private_subnets_cidr_blocks|Yes|List of CIDR blocks for the public subnets|
+|public_subnets_cidr_blocks|Yes|List of CIDR blocks for the public subnets. Can be empty, if **allow_internet_egress** is set to false|
+|private_subnets_cidr_blocks|Yes|List of CIDR blocks for the private subnets|
+|allow_internet_egress|No|Set to false to block internet egress from private subnets. If true (the default), the number of public subnets must be the same as the number of private subnets|
 |interface_endpoint_services|No|List of AWS services for which private interface endpoints should be created .e.g. ["ec2","kms"]|
 |gateway_endpoint_services|No|List of AWS services for which gateway endpoints should be created (only supported for s3 and dynamodb)|
 

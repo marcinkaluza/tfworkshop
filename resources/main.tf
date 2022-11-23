@@ -148,6 +148,8 @@ module "vpc2" {
   cidr_block                  = "10.0.0.0/16"
   public_subnets_cidr_blocks  = ["10.0.1.0/24"]
   private_subnets_cidr_blocks = ["10.0.2.0/24"]
+  allow_internet_egress       = false
+  interface_endpoint_services = ["ec2", "logs"]
 }
 
 

@@ -30,7 +30,7 @@ resource "aws_route_table" "private_rt" {
 # Route to the internet - different for each AZ/NAT gateway
 #
 resource "aws_route" "private_route_internet" {
-  count                  = length(var.private_subnets_cidr_blocks)
+  count                  = var.allow_internet_egress ? length(var.private_subnets_cidr_blocks) : 0
   route_table_id         = element(aws_route_table.private_rt.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.nat.*.id, count.index)
