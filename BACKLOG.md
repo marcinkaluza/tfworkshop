@@ -6,6 +6,6 @@
 |CICD|Need pipelines for website and generic build|||
 |Autoscaling groups||Kirill B.|Pending|
 |EKS|||
-|ECS?||||
+|ECS||claubota|Pending|
 |SQS|Check the value Addd|||
 |DynamoDB|No need as low value and difficult due to sort keys|||
