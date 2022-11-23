@@ -23,7 +23,7 @@ Contributions to this projects are welcome, if you have an idea for a new module
 
 # Terraform guidelines
 
-1. Follow naming convention for terrafomr resources and modules (lowercase letters and underscores)
+1. Follow naming convention for terraform resources and modules (lowercase letters and underscores)
 2. Run your code through checkov. Document exceptions if any
 3. Run `terraform fmt -recursive` in your module's directory to format code
 4. Run `terraform validate` in your module's directory to validate syntax and correctness
