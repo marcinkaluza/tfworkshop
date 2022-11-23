@@ -130,22 +130,4 @@ resource "aws_iam_role_policy_attachment" "cb_attach_policy_s3" {
 }
 ####
 
-data "aws_iam_policy" "codebuild_dev_policy" {
-  arn = "arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess"
-}
-
-data "aws_iam_policy" "codepipeline_full_policy" {
-  arn = "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "cb_attach_policy" {
-  role       = aws_iam_role.codebuild_role.name
-  policy_arn = data.aws_iam_policy.codebuild_dev_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "cp_attach_policy" {
-  role       = aws_iam_role.codepipeline_role.name
-  policy_arn = data.aws_iam_policy.codepipeline_full_policy.arn
-}
-
 
