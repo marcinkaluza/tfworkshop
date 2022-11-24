@@ -1,6 +1,6 @@
 # What is this module for?
 This module creates following resources:
-* Secret Manager secret
+* Secrets Manager secret
 * KMS encryption key
 * Optional rotation configuration
 
