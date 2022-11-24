@@ -5,6 +5,23 @@
 #   name         = "reusable-tf-assets.com"
 # }
 
+resource "aws_iam_role" "test_role" {
+  name_prefix = "test_role_"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
 module "sample" {
   source      = "../modules/s3_bucket"
   name_prefix = "test-bucket-"
@@ -45,7 +62,7 @@ module "kms" {
   source      = "../modules/kms"
   alias       = "cmk/Test"
   description = "Test KMS key"
-  roles       = [data.aws_caller_identity.current.arn]
+  roles       = [aws_iam_role.test_role.arn]
 }
 
 module "api_logging" {
@@ -136,7 +153,7 @@ module "vpc" {
   source                      = "../modules/vpc"
   name                        = "Main VPC"
   cidr_block                  = "10.0.0.0/16"
-  public_subnets_cidr_blocks  = ["10.0.1.0/24", "10.0.3.0/24" ]
+  public_subnets_cidr_blocks  = ["10.0.1.0/24", "10.0.3.0/24"]
   private_subnets_cidr_blocks = ["10.0.2.0/24", "10.0.4.0/24"]
   interface_endpoint_services = ["ec2", "logs"]
   gateway_endpoint_services   = ["s3"]
@@ -153,3 +170,9 @@ module "vpc2" {
 }
 
 
+module "secret" {
+  source        = "../modules/secretsmanager_secret"
+  name          = "test_secret"
+  secret_string = "Pa$$w0rd"
+  roles         = [aws_iam_role.test_role.arn]
+}
