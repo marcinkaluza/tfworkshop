@@ -55,6 +55,8 @@ module kms {
 |alias|Yes|Key alias to be created|
 |description|Yes|Key's description|
 |roles|No|List of IAM identities ARNs to be granted permissions to use the key for crypto operation. Required if no custom policy is provided.|
+|services|No|List of services that will be granted access to the key|
+|via_services|No|List of services which will allow all identities within current AWS account access to the key, as long as the key is used for encryption/decryption via one of the service in the list|
 |key_policy|No|Custom key access policy. Needs to be provided if no roles are specified.|
 # Outputs
 |Output|Description|

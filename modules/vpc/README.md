@@ -56,8 +56,4 @@ module "vpc" {
 |vpc_public_subnet_ids|IDs of the public subnets|
 
 # Ignored checkov warnings
-
-|Warning|Description|Reason|
-|---|---|---|
-|CKV_AWS_111|Ensure IAM policies does not allow write access without constraints|False positive. Policy as per [documentation](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)|
-|CKV_AWS_109|Ensure IAM policies does not allow permissions management / resource exposure without constraints|False positive. Policy as per [documentation](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)|
+None

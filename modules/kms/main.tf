@@ -29,7 +29,7 @@ resource "aws_kms_alias" "alias" {
 # Administrators to manage the key.
 #
 data "aws_iam_policy_document" "default_policy" {
-  count = length(var.roles) > 0 ? 1 : 0
+  count = (length(var.roles) + length(var.services) + length(var.via_services))> 0 ? 1 : 0
   #checkov:skip=CKV_AWS_111: "Ensure IAM policies does not allow write access without constraints"
   #checkov:skip=CKV_AWS_109: "Ensure IAM policies does not allow permissions management / resource exposure without constraints"
   statement {
@@ -43,20 +43,84 @@ data "aws_iam_policy_document" "default_policy" {
     }
   }
 
-  statement {
-    sid    = "2"
-    effect = "Allow"
-    actions = [
-      "kms:Encrypt*",
-      "kms:Decrypt*",
-      "kms:ReEncrypt*",
-      "kms:GenerateDataKey*",
-      "kms:Describe*"
-    ]
-    resources = ["*"]
-    principals {
-      type        = "AWS"
-      identifiers = var.roles
+  #
+  # Allow identities within current account to access the key
+  #
+  dynamic "statement" {
+    for_each = var.roles
+    content {
+      effect = "Allow"
+      actions = [
+        "kms:Encrypt*",
+        "kms:Decrypt*",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Describe*"
+      ]
+      resources = ["*"]
+      principals {
+        type        = "AWS"
+        identifiers = [statement.value]
+      }
+    }
+  }
+
+  #
+  # Allow services within current account to access the key
+  #
+  dynamic "statement" {
+    for_each = var.services
+    content {
+      effect = "Allow"
+      actions = [
+        "kms:Encrypt*",
+        "kms:Decrypt*",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Describe*"
+      ]
+      resources = ["*"]
+      principals {
+        type        = "Service"
+        identifiers = [statement.value]
+      }
+      condition {
+        test     = "StringEquals"
+        variable = "aws:SourceAccount"
+        values   = [data.aws_caller_identity.current.account_id]
+      }
+    }
+  }
+
+  #
+  # Allow anyone to use key for encryption/decryption as long as they come via parituculr AWS service(s)
+  #
+  dynamic "statement" {
+    for_each = var.via_services
+    content {
+      effect = "Allow"
+      actions = [
+        "kms:Encrypt*",
+        "kms:Decrypt*",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Describe*"
+      ]
+      resources = ["*"]
+      principals {
+        type        = "*"
+        identifiers = ["*"]
+      }
+      condition {
+        test     = "StringEquals"
+        variable = "kms:CallerAccount"
+        values   = [data.aws_caller_identity.current.account_id]
+      }
+      condition {
+        test     = "StringEquals"
+        variable = "kms:ViaService"
+        values   = [statement.value]
+      }
     }
   }
 }
