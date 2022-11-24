@@ -64,6 +64,7 @@ The modules included in this project come into three flavours:
 |[kms](./modules/kms/README.md)|KMS key, alias and default access policy|
 |[lambda](./modules/lambda/README.md)|Lambda function with prod and test aliases|
 |[s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
+|[secretsmanager_secret](./modules/secretsmanager_secret/README.md)|Secrets Manager secret with KMS encryption key|
 |[vpc](./modules/vpc/README.md)|VPC, private and public subnets, service endpoints
 
 
