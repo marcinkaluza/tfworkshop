@@ -135,6 +135,7 @@
                 "secretsmanager:Update*",
                 "secretsmanager:Delete*",
                 "secretsmanager:Describe*",
+                "secretsmanager:Put*",
                 "lambda:CreateFunction",
                 "lambda:CreateAlias",
                 "lambda:UpdateAlias",
