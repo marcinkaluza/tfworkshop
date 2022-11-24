@@ -172,7 +172,7 @@ module "vpc2" {
 
 module "secret" {
   source        = "../modules/secretsmanager_secret"
-  name          = "test_secret"
+  name          = "test_secret_1"
   secret_string = "Pa$$w0rd"
   roles         = [aws_iam_role.test_role.arn, data.aws_caller_identity.current.arn]
 }
