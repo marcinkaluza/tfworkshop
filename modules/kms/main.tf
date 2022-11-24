@@ -108,7 +108,7 @@ data "aws_iam_policy_document" "default_policy" {
       ]
       resources = ["*"]
       principals {
-        type        = "*"
+        type        = "AWS"
         identifiers = ["*"]
       }
       condition {
