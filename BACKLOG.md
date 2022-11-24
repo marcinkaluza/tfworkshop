@@ -1,7 +1,7 @@
 | Task | Extra notes | Who | Status |
 |---|---|---|---|
-|VPC Implementation|VPC With private and optional piblic subnets, beware security matrix requirements re routing.|mkaluz|Pending|
-|Secret manager secret|Needs rotation|mkaluz|Pending|
+|VPC Implementation|VPC With private and optional piblic subnets, beware security matrix requirements re routing.|mkaluz|Done|
+|Secret manager secret|Needs rotation|mkaluz|Done|
 |Aurora||marinehd|Pending|
 |EC2|Simple thing with user data as a param|||
 |Cognito||||
