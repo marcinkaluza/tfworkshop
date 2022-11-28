@@ -70,6 +70,7 @@ module "api_logging" {
 }
 
 module "api" {
+  depends_on = [module.api_logging]
   source   = "../modules/apigateway_rest"
   api_name = "Test-API"
   api_spec = jsonencode({
@@ -167,6 +168,22 @@ module "vpc2" {
   private_subnets_cidr_blocks = ["10.0.2.0/24"]
   allow_internet_egress       = false
   interface_endpoint_services = ["ec2", "logs"]
+}
+
+resource "random_password" "master_password" {
+  length = 16
+}
+
+module "rds_aurora" {
+  source                = "../modules/rds_aurora"
+  subnet_ids            = module.vpc.vpc_private_subnet_ids
+  database_name         = "aurora_db"
+  master_username       = "master"
+  master_password       = random_password.master_password.result
+  cluster_engine        = "aurora-postgresql"
+  cluster_identifier    = "aurora"
+  instance_class        = "db.t3.medium"
+  backup_kms            = module.kms.arn 
 }
 
 
