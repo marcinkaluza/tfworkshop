@@ -197,8 +197,8 @@ resource "aws_security_group" "rds" {
 
   ingress {
     description = "ingress from VPC CIDR"
-    from_port   = 5433
-    to_port     = 5433
+    from_port   = 5533
+    to_port     = 5533
     protocol    = "tcp"
     cidr_blocks = [local.cidr_block]
   }
