@@ -152,14 +152,54 @@ resource "aws_lambda_permission" "prod_alias_access" {
   qualifier     = each.key
 }
 
+locals {
+  cidr_block = "10.0.0.0/16"
+}
+
 module "vpc" {
   source                      = "../modules/vpc"
   name                        = "Main VPC"
-  cidr_block                  = "10.0.0.0/16"
+  cidr_block                  = local.cidr_block
   public_subnets_cidr_blocks  = ["10.0.1.0/24", "10.0.3.0/24"]
   private_subnets_cidr_blocks = ["10.0.2.0/24", "10.0.4.0/24"]
   interface_endpoint_services = ["ec2", "logs"]
   gateway_endpoint_services   = ["s3"]
+}
+
+resource "aws_security_group" "ec2_instances" {
+  name_prefix = "ec2_security_group_"
+  description = "SG for VPC endpoints"
+  vpc_id      = module.vpc.vpc_id
+
+  egress {
+    description = "Egress to VPC CIDR"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "tcp"
+    cidr_blocks = [local.cidr_block]
+  }
+
+  egress {
+    description = "Egress to the internet"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "rds" {
+  name_prefix = "rds_security_group_"
+  description = "SG for Rds"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description = "ingress from VPC CIDR"
+    from_port   = 5433
+    to_port     = 5433
+    protocol    = "tcp"
+    cidr_blocks = [local.cidr_block]
+  }
 }
 
 module "vpc2" {
