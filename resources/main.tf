@@ -5,6 +5,8 @@
 #   name         = "reusable-tf-assets.com"
 # }
 
+data "aws_region" "current" {}
+
 resource "aws_iam_role" "test_role" {
   name_prefix = "test_role_"
   assume_role_policy = jsonencode({
@@ -71,8 +73,8 @@ module "api_logging" {
 
 module "api" {
   depends_on = [module.api_logging]
-  source   = "../modules/apigateway_rest"
-  api_name = "Test-API"
+  source     = "../modules/apigateway_rest"
+  api_name   = "Test-API"
   api_spec = jsonencode({
     openapi = "3.0.1"
     info = {
@@ -167,7 +169,12 @@ module "vpc2" {
   public_subnets_cidr_blocks  = ["10.0.1.0/24"]
   private_subnets_cidr_blocks = ["10.0.2.0/24"]
   allow_internet_egress       = false
-  interface_endpoint_services = ["ec2", "logs"]
+  interface_endpoint_services = ["ec2",
+    "logs",
+    "ec2messages",
+    "ssm",
+    "ssmmessages"
+  ]
 }
 
 resource "random_password" "master_password" {
@@ -175,15 +182,15 @@ resource "random_password" "master_password" {
 }
 
 module "rds_aurora" {
-  source                = "../modules/rds_aurora"
-  subnet_ids            = module.vpc.vpc_private_subnet_ids
-  database_name         = "aurora_db"
-  master_username       = "master"
-  master_password       = random_password.master_password.result
-  cluster_engine        = "aurora-postgresql"
-  cluster_identifier    = "aurora"
-  instance_class        = "db.t3.medium"
-  backup_kms            = module.kms.arn 
+  source             = "../modules/rds_aurora"
+  subnet_ids         = module.vpc.vpc_private_subnet_ids
+  database_name      = "aurora_db"
+  master_username    = "master"
+  master_password    = random_password.master_password.result
+  cluster_engine     = "aurora-postgresql"
+  cluster_identifier = "aurora"
+  instance_class     = "db.t3.medium"
+  backup_kms         = module.kms.arn
 }
 
 

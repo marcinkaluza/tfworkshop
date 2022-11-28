@@ -22,6 +22,7 @@ resource "aws_rds_cluster" "aurora" {
   deletion_protection                 = true
   skip_final_snapshot                 = true  # The cluster needs to be deleted and redeployed if this argument changes to false. The final_snpashot_identifier argument will also be required.
   apply_immediately                   = true 
+  enabled_cloudwatch_logs_exports     = ["postgresql"]
 }
 
 # Creation of Aurora RDS instances in the cluster
