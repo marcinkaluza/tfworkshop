@@ -2,6 +2,8 @@
 |---|---|---|---|
 |VPC Implementation|VPC With private and optional piblic subnets, beware security matrix requirements re routing.|mkaluz|Done|
 |Secret manager secret|Needs rotation|mkaluz|Done|
+|Cloudfront|Add support for cloudfron access control policies|gpilouis|Pending|
+|s3|Remove support for non-kms encryption from s3|mkaluz|Pending|
 |Aurora||marinehd|Pending|
 |EC2|Simple thing with user data as a param|||
 |Cognito||||

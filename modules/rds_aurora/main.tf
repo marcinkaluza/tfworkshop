@@ -6,6 +6,7 @@ resource "aws_db_subnet_group" "subnet_group" {
 
 # Aurora RDS cluster
 resource "aws_rds_cluster" "aurora" {
+  #checkov:skip=CKV2_AWS_27: "Ensure Postgres RDS as aws_rds_cluster has Query Logging enabled"
   cluster_identifier                  = var.cluster_identifier
   engine                              = var.cluster_engine
   database_name                       = var.database_name
