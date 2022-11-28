@@ -167,6 +167,7 @@ module "vpc" {
 }
 
 resource "aws_security_group" "ec2_instances" {
+  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
   name_prefix = "ec2_security_group_"
   description = "SG for VPC endpoints"
   vpc_id      = module.vpc.vpc_id
@@ -189,6 +190,7 @@ resource "aws_security_group" "ec2_instances" {
 }
 
 resource "aws_security_group" "rds" {
+  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"  
   name_prefix = "rds_security_group_"
   description = "SG for Rds"
   vpc_id      = module.vpc.vpc_id
