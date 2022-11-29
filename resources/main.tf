@@ -166,44 +166,6 @@ module "vpc" {
   gateway_endpoint_services   = ["s3"]
 }
 
-resource "aws_security_group" "ec2_instances" {
-  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
-  name_prefix = "ec2_security_group_"
-  description = "SG for VPC endpoints"
-  vpc_id      = module.vpc.vpc_id
-
-  egress {
-    description = "Egress to VPC CIDR"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "tcp"
-    cidr_blocks = [local.cidr_block]
-  }
-
-  egress {
-    description = "Egress to the internet"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "rds" {
-  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"  
-  name_prefix = "rds_security_group_"
-  description = "SG for Rds"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress {
-    description = "ingress from VPC CIDR"
-    from_port   = 5533
-    to_port     = 5533
-    protocol    = "tcp"
-    cidr_blocks = [local.cidr_block]
-  }
-}
-
 module "vpc2" {
   source                      = "../modules/vpc"
   name                        = "Second VPC"
