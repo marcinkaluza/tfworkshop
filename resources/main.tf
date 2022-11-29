@@ -5,6 +5,11 @@
 #   name         = "reusable-tf-assets.com"
 # }
 
+locals {
+  rds_port = 5533
+  cidr_block = "10.0.0.0/16"
+}
+
 data "aws_region" "current" {}
 
 resource "aws_iam_role" "test_role" {
@@ -152,10 +157,6 @@ resource "aws_lambda_permission" "prod_alias_access" {
   qualifier     = each.key
 }
 
-locals {
-  cidr_block = "10.0.0.0/16"
-}
-
 module "vpc" {
   source                      = "../modules/vpc"
   name                        = "Main VPC"
@@ -165,6 +166,29 @@ module "vpc" {
   interface_endpoint_services = ["ec2", "logs"]
   gateway_endpoint_services   = ["s3"]
 }
+
+# resource "aws_security_group" "ec2_instances" {
+#   #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+#   name_prefix = "ec2_security_group_"
+#   description = "SG for VPC endpoints"
+#   vpc_id      = module.vpc.vpc_id
+
+#   egress {
+#     description = "Egress to VPC CIDR"
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "tcp"
+#     cidr_blocks = [local.cidr_block]
+#   }
+
+#   egress {
+#     description = "Egress to the internet"
+#     from_port   = 443
+#     to_port     = 443
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
 
 module "vpc2" {
   source                      = "../modules/vpc"
@@ -185,22 +209,4 @@ resource "random_password" "master_password" {
   length = 16
 }
 
-module "rds_aurora" {
-  source             = "../modules/rds_aurora"
-  subnet_ids         = module.vpc.vpc_private_subnet_ids
-  database_name      = "aurora_db"
-  master_username    = "master"
-  master_password    = random_password.master_password.result
-  cluster_engine     = "aurora-postgresql"
-  cluster_identifier = "aurora"
-  instance_class     = "db.t3.medium"
-  backup_kms         = module.kms.arn
-}
 
-
-module "secret" {
-  source        = "../modules/secretsmanager_secret"
-  name          = "test_secret_1"
-  secret_string = random_password.master_password.result
-  roles         = [aws_iam_role.test_role.arn, data.aws_caller_identity.current.arn]
-}
