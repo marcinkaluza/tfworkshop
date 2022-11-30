@@ -68,6 +68,7 @@ The modules included in this project come into three flavours:
 |[secretsmanager_secret](./modules/secretsmanager_secret/README.md)|Secrets Manager secret with KMS encryption key|
 |[vpc](./modules/vpc/README.md)|VPC, private and public subnets, service endpoints
 |[rds_aurora](./modules/rds_aurora/README.md)|RDS Aurora database cluster, cluster instances and database subnet group
+|[ec2](./modules/ec2/README.md)|EC2 instance
 
 
 ### Low level modules
