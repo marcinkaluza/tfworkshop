@@ -5,12 +5,16 @@ resource "aws_security_group" "rds" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    description = "ingress from VPC CIDR"
+    description = "Ingress from VPC CIDR"
     from_port   = local.rds_port
     to_port     = local.rds_port
     protocol    = "tcp"
     cidr_blocks = [local.cidr_block]
   }
+}
+
+resource "random_password" "master_password" {
+  length = 16
 }
 
 module "rds_aurora" {

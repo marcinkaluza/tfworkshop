@@ -86,6 +86,8 @@
                 "ec2:Update*",
                 "ec2:Get*",
                 "ec2:Describe*",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
                 "ecr:ListTagsForResource",
                 "events:DescribeEventBus",
                 "events:DeleteRule",

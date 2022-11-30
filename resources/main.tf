@@ -205,8 +205,6 @@ module "vpc2" {
   ]
 }
 
-resource "random_password" "master_password" {
-  length = 16
-}
+
 
 
