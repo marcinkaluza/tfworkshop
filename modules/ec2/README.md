@@ -1,5 +1,8 @@
 # What is this module for?
-Provide information what is being created
+This module creates following resources:
+* EC2 instance
+* IAM role
+* Instance profile
 
 # How do I use it?
 Simple useage:
@@ -38,7 +41,5 @@ module "ec2" {
 
 # Ignored checkov warnings
 
-|Warning|Description|Reason|
-|---|---|---|
-|CKV_AWS_XXX|Include checkov warning text| Explain why ignored|
+None.
 
