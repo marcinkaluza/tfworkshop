@@ -6,7 +6,7 @@
 # }
 
 locals {
-  rds_port = 5533
+  rds_port   = 5533
   cidr_block = "10.0.0.0/16"
 }
 
