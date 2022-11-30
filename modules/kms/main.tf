@@ -55,7 +55,10 @@ data "aws_iam_policy_document" "default_policy" {
         "kms:Decrypt*",
         "kms:ReEncrypt*",
         "kms:GenerateDataKey*",
-        "kms:Describe*"
+        "kms:Describe*",
+        "kms:CreateGrant",
+        "kms:ListGrants",
+        "kms:RevokeGrant"
       ]
       resources = ["*"]
       principals {

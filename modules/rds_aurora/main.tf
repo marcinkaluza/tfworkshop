@@ -1,3 +1,4 @@
+data "aws_caller_identity" "current" {}
 # Subnet group of subnets across which the rds cluster will deployed.
 resource "aws_db_subnet_group" "subnet_group" {
   name       = "${var.cluster_identifier}-subnet-group"
@@ -20,14 +21,14 @@ resource "aws_rds_cluster" "aurora" {
   iam_database_authentication_enabled = true
   storage_encrypted                   = true
   deletion_protection                 = true
-  skip_final_snapshot                 = true  # The cluster needs to be deleted and redeployed if this argument changes to false. The final_snpashot_identifier argument will also be required.
-  apply_immediately                   = true 
+  skip_final_snapshot                 = true # The cluster needs to be deleted and redeployed if this argument changes to false. The final_snpashot_identifier argument will also be required.
+  apply_immediately                   = true
   enabled_cloudwatch_logs_exports     = ["postgresql"]
 }
 
 # Creation of Aurora RDS instances in the cluster
 resource "aws_rds_cluster_instance" "cluster_instances" {
-  count                      = "${length(var.subnet_ids)}"    # Defines the number of instances that will be deployed in this cluster.
+  count                      = length(var.subnet_ids) # Defines the number of instances that will be deployed in this cluster.
   identifier                 = "${aws_rds_cluster.aurora.cluster_identifier}-${count.index}"
   cluster_identifier         = aws_rds_cluster.aurora.id
   instance_class             = var.instance_class
@@ -50,9 +51,25 @@ resource "aws_iam_role" "monitoring_role" {
             Service = "monitoring.rds.amazonaws.com"
           }
           Effect = "Allow"
+          Condition = {
+            StringEquals = {
+              "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+            }
+          }
         }
+
       ]
   })
+}
+
+data "aws_iam_policy" "monitoring_policy" {
+  name = "AmazonRDSEnhancedMonitoringRole"
+}
+
+# Policy for the monitoring role
+resource "aws_iam_role_policy_attachment" "attachment" {
+  role       = aws_iam_role.monitoring_role.name
+  policy_arn = data.aws_iam_policy.monitoring_policy.arn
 }
 
 resource "aws_iam_role" "backup_role" {
@@ -67,14 +84,20 @@ resource "aws_iam_role" "backup_role" {
             Service = "backup.amazonaws.com"
           }
           Effect = "Allow"
+          Condition = {
+            StringEquals = {
+              "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+            }
+          }
         }
+
       ]
   })
 }
 
 resource "aws_backup_vault" "backup_vault" {
-# This is a false negative since the kms key arn is defined in the resources main.tf.
-# checkov:skip=CKV_AWS_166: "Ensure Backup Vault is encrypted at rest using KMS CMK"
+  # This is a false negative since the kms key arn is defined in the resources main.tf.
+  # checkov:skip=CKV_AWS_166: "Ensure Backup Vault is encrypted at rest using KMS CMK"
   name        = "${aws_rds_cluster.aurora.cluster_identifier}_backup_vault"
   kms_key_arn = var.backup_kms
 }
