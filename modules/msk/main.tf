@@ -8,7 +8,10 @@ module "log_key" {
   alias       = "cloudwatch/msk/${var.cluster_name}"
   description = "KMS key for data encryption of Cloudwatch logs"
   roles       = [data.aws_caller_identity.current.arn]
-  services    = ["logs.${data.aws_region.current.name}.amazonaws.com"]
+  services    = [
+     "logs.${data.aws_region.current.name}.amazonaws.com",  
+     "delivery.logs.amazonaws.com"
+   ]
 }
 
 #
