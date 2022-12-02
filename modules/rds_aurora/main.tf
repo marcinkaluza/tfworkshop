@@ -84,11 +84,7 @@ resource "aws_iam_role" "backup_role" {
             Service = "backup.amazonaws.com"
           }
           Effect = "Allow"
-          Condition = {
-            StringEquals = {
-              "aws:SourceAccount" = data.aws_caller_identity.current.account_id
-            }
-          }
+          # NOTE: This role cannot use aws:SourceAccount condition!
         }
 
       ]
