@@ -62,6 +62,7 @@ variable "master_password" {
   type        = string
   default     = ""
   description = "Master account password for the rds cluster"
+  sensitive   = true
 }
 
 variable "backup_kms" {

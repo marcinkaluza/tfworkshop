@@ -9,6 +9,7 @@ variable "user_name" {
 variable "password" {
   description = "Password of the user account"
   type        = string
+  sensitive   = true
 }
 
 variable "cluster_name" {
