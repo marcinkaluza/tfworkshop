@@ -4,11 +4,37 @@ Contributions to this projects are welcome, if you have an idea for a new module
 
 # How to contribute
 
-1. Create fork of the repository.
-2. use the forked repository to implement changes
-3. Once the work in the forked repo has been completed, create merge request in the forked repo specifying terraform-assets repo's main branch as the target for the merge 
-4. Once your code has been reviewed, the changes will be merged to the main branch
+1. Create feature branch for your work 
+```
+git checkout -b myworkbranch
+```
+2. Implement your changes in the feature branch
+3. When testing your changes, you may want to test your work in an isengard account. If you do not want to deploy S3 backend in your account, comment out the s3 backend in the ../resources/terraform.tf file as follows:
+```hcl
+terraform {
+  required_version = "~> 1.0"
+  # Comment out the lines bellow
+  #backend "s3" {
+  #}
 
+  required_providers {
+    aws = {
+      version               = "4.42.0"
+      configuration_aliases = [aws, aws.us_east]
+    }
+  }
+}
+```
+4. In order to avoid mistakenly committing changes to **terraform.tf** file, execute following git command in the ./resources directory:
+```
+git update-index --skip-worktree ./terraform.tf
+```
+5. Once the work has been completed, commit it, push and create merge request specifying terraform-assets repo's main branch as the target for the merge 
+6. Once your code has been reviewed, the changes will be merged to the main branch
+7. In order to be able to switch to another branch, you may need to execute the following git command:
+```
+git update-index --no-skip-worktree ./terraform.tf
+```
 
 # Contribution guidelines
 
