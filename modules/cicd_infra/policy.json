@@ -23,6 +23,7 @@
                 "kms:*",
                 "lambda:*",
                 "logs:*",
+                "memorydb:*",
                 "rds:*",
                 "route53:*",
                 "s3:*",
