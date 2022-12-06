@@ -207,4 +207,17 @@ module "vpc2" {
 
 
 
+resource "aws_security_group" "private_ec2_sg" {
+  name_prefix = "private_ec2_security_group_"
+  description = "SG for private EC2 instances"
+  vpc_id      = module.vpc.vpc_id
+}
+
+module "ec2" {
+  source                 = "../modules/ec2"
+  subnet_id              = module.vpc.vpc_private_subnet_ids[0]
+  vpc_security_group_ids = [aws_security_group.private_ec2_sg.id]
+  public_ip              = false
+}
+
 

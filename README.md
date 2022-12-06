@@ -68,8 +68,9 @@ The modules included in this project come into three flavours:
 |[s3_bucket](./modules/s3_bucket/README.md)|S3 Bucket with encryption, access logging etc. |
 |[s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
 |[secretsmanager_secret](./modules/secretsmanager_secret/README.md)|Secrets Manager secret with KMS encryption key|
-|[rds_aurora](./modules/rds_aurora/README.md)|RDS Aurora database cluster, cluster instances and database subnet group|
-|[vpc](./modules/vpc/README.md)|VPC, private and public subnets, service endpoints|
+|[vpc](./modules/vpc/README.md)|VPC, private and public subnets, service endpoints
+|[rds_aurora](./modules/rds_aurora/README.md)|RDS Aurora database cluster, cluster instances and database subnet group
+|[ec2](./modules/ec2/README.md)|EC2 instance
 
 
 ### Low level modules
