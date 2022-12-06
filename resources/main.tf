@@ -209,30 +209,6 @@ resource "random_password" "master_password" {
   length = 16
 }
 
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners = ["amazon"]
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-gp2"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  } 
-}
-
 resource "aws_security_group" "private_ec2_sg" {
   name_prefix = "private_ec2_security_group_"
   description = "SG for private EC2 instances"
@@ -241,9 +217,6 @@ resource "aws_security_group" "private_ec2_sg" {
 
 module "ec2" {
   source                 = "../modules/ec2"
-  ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = "t3.micro"
-  key_pair_key_name      = "test-kp"
   subnet_id              = module.vpc.vpc_private_subnet_ids[0]
   vpc_security_group_ids = [aws_security_group.private_ec2_sg.id]
   public_ip              = false
