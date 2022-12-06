@@ -29,7 +29,7 @@ resource "aws_kms_alias" "alias" {
 # Administrators to manage the key.
 #
 data "aws_iam_policy_document" "default_policy" {
-  count = (length(var.roles) + length(var.services) + length(var.via_services))> 0 ? 1 : 0
+  count = var.key_policy == null ? 1 : 0
   #checkov:skip=CKV_AWS_111: "Ensure IAM policies does not allow write access without constraints"
   #checkov:skip=CKV_AWS_109: "Ensure IAM policies does not allow permissions management / resource exposure without constraints"
   statement {
