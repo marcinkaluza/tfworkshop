@@ -6,7 +6,7 @@
 # }
 
 locals {
-  rds_port = 5533
+  rds_port   = 5533
   cidr_block = "10.0.0.0/16"
 }
 
@@ -205,9 +205,7 @@ module "vpc2" {
   ]
 }
 
-resource "random_password" "master_password" {
-  length = 16
-}
+
 
 resource "aws_security_group" "private_ec2_sg" {
   name_prefix = "private_ec2_security_group_"

@@ -63,6 +63,8 @@ The modules included in this project come into three flavours:
 |[cloudfront_distribution](./modules/cloudfront-distribution/README.md)|Cloudfront distribution with an S3 bucket and optional API origin|
 |[kms](./modules/kms/README.md)|KMS key, alias and default access policy|
 |[lambda](./modules/lambda/README.md)|Lambda function with prod and test aliases|
+|[memorydb](./modules/memorydb/README.md)|Amazon MemoryDB cluster|
+|[msk](./modules/msk/README.md)|MSK cluster|
 |[s3_bucket](./modules/s3_bucket/README.md)|S3 Bucket with encryption, access logging etc. |
 |[s3_bucket](./modules/s3_bucket/README.md) | S3 Bucket with encryption, access logging etc. |
 |[secretsmanager_secret](./modules/secretsmanager_secret/README.md)|Secrets Manager secret with KMS encryption key|
