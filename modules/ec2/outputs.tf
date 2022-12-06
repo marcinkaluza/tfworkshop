@@ -20,3 +20,8 @@ output "public_dns" {
   description = "Public DNS of the instance"
   value       = aws_instance.ec2.public_dns
 }
+
+output "iam_arn" {
+  description = "ARN of EC2 IAM role"
+  value       = aws_iam_role.ec2_iam_role.arn 
+}

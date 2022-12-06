@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_iam_role" "ec2_iam_role" {
   name = "ec2-iam-role"
 
@@ -27,8 +29,39 @@ resource "aws_iam_instance_profile" "instance_profile" {
   role = aws_iam_role.ec2_iam_role.name
 }
 
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners = ["amazon"]
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-gp2"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  } 
+}
+
+module "root_key" {
+  source      = "../kms"
+  description = "KMS key for the EC2 root block device"
+  alias       = "ec2/${var.name}"
+  services    = ["ec2.${data.aws_region.current.name}.amazonaws.com"]
+}
+
 resource "aws_instance" "ec2" {
-  ami                         = var.ami
+  ami                         = var.ami_id != null ? var.ami_id : data.aws_ami.amazon_linux.id
   instance_type               = var.instance_type
   associate_public_ip_address = var.public_ip
   iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
@@ -40,10 +73,11 @@ resource "aws_instance" "ec2" {
   monitoring                  = true 
   user_data                   = var.user_data
   tags                        = {
-                                    Name ="ec2"
+                                    Name ="${var.name}"
                                 }
   root_block_device {
     encrypted = true
+    kms_key_id = module.root_key.arn
   }
   metadata_options {
     http_endpoint = "enabled"

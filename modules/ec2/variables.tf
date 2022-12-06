@@ -1,9 +1,16 @@
 #
 # Module's input variables
 #
-variable "ami" {
-  description = "AMI of the EC2 instance"
+variable "name" {
+  description = "Name of the EC2 instance."
   type        = string
+  default     = "EC2"
+}
+
+variable "ami_id" {
+  description = "AMI of the EC2 instance. Optional, pulls latest linux AMI by default."
+  type        = string
+  default     = null
 }
 
 variable "instance_type" {

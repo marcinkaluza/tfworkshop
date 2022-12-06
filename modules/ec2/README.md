@@ -10,9 +10,6 @@ Simple useage:
 ```hcl
 module "ec2" {
   source                 = "../modules/ec2"
-  ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = "t3.micro"
-  key_pair_key_name      = "test-kp"
   subnet_id              = module.vpc.vpc_private_subnet_ids[0]
   vpc_security_group_ids = [aws_security_group.private_ec2_sg.id]
   public_ip              = false
@@ -21,9 +18,10 @@ module "ec2" {
 # Inputs
 |Variable name|Required|Description|
 |-------------|--------|-----------|
-|ami|Yes|AMI of the EC2 instance|
 |instance_type|Yes|Type of the instance|
 |subnet_id|Yes|Subnet in which the instance will be deployed|
+|ami_id|No|AMI of the EC2 instance. Defaults to latest Linux AMI|
+|name|No|Name of the EC2 instance|
 |key_pair_key_name|No|Associate a key pair to the instance to allow SSH to the instance. Recommended parameter|
 |vpc_security_group_ids|No|List of security group id(s) to which EC2 should be attached|
 |public_ip|No|Allows the instance to get a public ip address. Defaults to false|
@@ -38,6 +36,7 @@ module "ec2" {
 |private_dns|Private DNS of the instance|
 |public_ip|Public IP of the instance|
 |public_dns|Public DNS of the instance|
+|iam_arn|ARN of the instance|
 
 # Ignored checkov warnings
 
