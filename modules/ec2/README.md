@@ -36,7 +36,7 @@ module "ec2" {
 |private_dns|Private DNS of the instance|
 |public_ip|Public IP of the instance|
 |public_dns|Public DNS of the instance|
-|iam_arn|ARN of the instance|
+|iam_arn|ARN of the instance role|
 
 # Ignored checkov warnings
 

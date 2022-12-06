@@ -57,7 +57,6 @@ module "root_key" {
   source      = "../kms"
   description = "KMS key for the EC2 root block device"
   alias       = "ec2/${var.name}"
-  services    = ["ec2.${data.aws_region.current.name}.amazonaws.com"]
 }
 
 resource "aws_instance" "ec2" {
