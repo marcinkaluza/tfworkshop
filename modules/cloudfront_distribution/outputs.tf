@@ -27,8 +27,3 @@ output "website_bucket_name" {
   value       = module.website_bucket.name
   description = "Name of website hosting bucket"
 }
-
-output "oai_iam_arn" {
-  value       = resource.aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn
-  description = "IAM arn of the OAI. This attribute is a pre-generated ARN for use in S3 bucket policies"
-}

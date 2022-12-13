@@ -3,18 +3,25 @@ locals {
   security_headers_policy = "67f7725c-6f97-4210-82d7-5512b31e9d03"
 }
 
-
 #
-# Configuring Origin Access Identity on S3 Bucket
+# Configuring Origin Access Control on S3 Bucket
 #
 data "aws_iam_policy_document" "access_policy" {
   statement {
+    sid    = "AllowCloudFrontServicePrincipalReadOnly"
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
     actions   = ["s3:GetObject"]
     resources = ["${module.website_bucket.arn}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values = [
+        resource.aws_cloudfront_distribution.distribution.arn
+      ]
     }
   }
 }
@@ -23,11 +30,21 @@ data "aws_iam_policy_document" "access_policy" {
 # S3 bucket for CloudFront distribution
 #
 module "website_bucket" {
-  source      = "../s3_bucket"
-  name_prefix = var.s3_bucket_prefix
-  #Encryption must be AES256 for CloudFront distribution (cf. README)
-  sse_algorithm = "AES256"
+  source        = "../s3_bucket"
+  name_prefix   = var.s3_bucket_prefix
+  sse_algorithm = "aws:kms"
+  kms_key_id    = module.kms.arn
   access_policy = data.aws_iam_policy_document.access_policy.json
+}
+
+#
+# S3 KMS
+#
+module "kms" {
+  source      = "../kms"
+  alias       = "cloudfront/${resource.aws_cloudfront_distribution.distribution.id}"
+  description = "Key for S3 bucket of cloudfront distribution"
+  services    = ["cloudfront.amazonaws.com"]
 }
 
 #
@@ -39,10 +56,15 @@ module "access_log_bucket" {
 }
 
 #
-# Origin Access Identity for Cloudfront Distribution
+# Origin Access Control for Cloudfront Distribution
 #
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = module.website_bucket.name
+
+resource "aws_cloudfront_origin_access_control" "oac" {
+  name                              = "tf_access_controll"
+  description                       = "Origin Access Controll to access the website's s3 bucket"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 
 #
@@ -56,12 +78,9 @@ resource "aws_cloudfront_distribution" "distribution" {
 
   #S3 bucket origin
   origin {
-    domain_name = module.website_bucket.regional_domain_name
-    origin_id   = var.s3_bucket_prefix
-
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
-    }
+    domain_name              = module.website_bucket.regional_domain_name
+    origin_id                = var.s3_bucket_prefix
+    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
 
   #Optional API GW origin only if apigw_origin_enabled is set to true
