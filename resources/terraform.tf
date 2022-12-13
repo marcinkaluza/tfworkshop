@@ -5,7 +5,7 @@ terraform {
 
   required_providers {
     aws = {
-      version               = "4.42.0"
+      version               = "4.45"
       configuration_aliases = [aws, aws.us_east]
     }
   }

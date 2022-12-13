@@ -1,9 +1,16 @@
 #
 # Route53 Hosted Zone
 # 
-# resource "aws_route53_zone" "dev" {
-#   name         = "reusable-tf-assets.com"
-# }
+#TODO manually create a hosted zone in r53. Maybe explain Supernova gist in the doc?
+data "aws_route53_zone" "domain" {
+  name         = var.domain_name
+  private_zone = false
+}
+
+locals {
+  web_domain = "www.${var.domain_name}"
+  api_domain_name = "api.${var.domain_name}"
+}
 
 locals {
   rds_port   = 5533
@@ -222,3 +229,9 @@ module "ec2" {
 }
 
 
+module "secret" {
+  source        = "../modules/secretsmanager_secret"
+  name          = "test_secret_1"
+  secret_string = "Pa$$w0rd"
+  roles         = [aws_iam_role.test_role.arn, data.aws_caller_identity.current.arn]
+}

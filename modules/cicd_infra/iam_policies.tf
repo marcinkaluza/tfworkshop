@@ -100,7 +100,7 @@ data "aws_iam_policy" "codebuild_dev_policy" {
 }
 
 data "aws_iam_policy" "codepipeline_full_policy" {
-  arn = "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
+  arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "cb_attach_policy" {

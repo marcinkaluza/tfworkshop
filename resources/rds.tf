@@ -32,9 +32,9 @@ module "rds_aurora" {
 }
 
 
-module "secret" {
-  source        = "../modules/secretsmanager_secret"
-  name          = "test_secret_1"
-  secret_string = random_password.master_password.result
-  roles         = [aws_iam_role.test_role.arn, data.aws_caller_identity.current.arn]
-}
+# module "secret" {
+#   source        = "../modules/secretsmanager_secret"
+#   name          = "test_secret_1"
+#   secret_string = random_password.master_password.result
+#   roles         = [aws_iam_role.test_role.arn, data.aws_caller_identity.current.arn]
+# }
