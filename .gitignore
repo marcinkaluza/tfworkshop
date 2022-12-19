@@ -1,11 +1,5 @@
 .DS_Store
 .terraform
-terraform.zip
-modules/bootstrap/.terraform.lock.hcl
-modules/bootstrap/terraform.tfstate
-
-resources/terraform.tfstate
-resources/terraform.tfstate.backup
-resources/.terraform.lock.hcl
-resources/.terraform.lock.hcl
-resources/.terraform.lock.hcl
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
