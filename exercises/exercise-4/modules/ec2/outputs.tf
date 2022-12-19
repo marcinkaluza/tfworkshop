@@ -23,5 +23,5 @@ output "public_dns" {
 
 output "iam_arn" {
   description = "ARN of EC2 IAM role"
-  value       = aws_iam_role.ec2_iam_role.arn 
+  value       = aws_iam_role.ec2_iam_role.arn
 }

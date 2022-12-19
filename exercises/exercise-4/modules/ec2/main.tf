@@ -31,7 +31,7 @@ resource "aws_iam_instance_profile" "instance_profile" {
 
 data "aws_ami" "amazon_linux" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["amazon"]
   filter {
     name   = "root-device-type"
     values = ["ebs"]
@@ -50,7 +50,7 @@ data "aws_ami" "amazon_linux" {
   filter {
     name   = "architecture"
     values = ["x86_64"]
-  } 
+  }
 }
 
 resource "aws_instance" "ec2" {
@@ -60,18 +60,19 @@ resource "aws_instance" "ec2" {
   iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = var.vpc_security_group_ids
-  monitoring                  = true 
+  monitoring                  = true
   user_data                   = var.user_data
-  tags                        = {
-                                    Name ="${var.name}"
-                                }
+  user_data_replace_on_change = true
+  tags = {
+    Name = "${var.name}"
+  }
   root_block_device {
     encrypted = true
   }
-  
+
   metadata_options {
-    http_endpoint = "enabled"
-    http_tokens   = "required"
+    http_endpoint          = "enabled"
+    http_tokens            = "required"
     instance_metadata_tags = "enabled"
   }
 }

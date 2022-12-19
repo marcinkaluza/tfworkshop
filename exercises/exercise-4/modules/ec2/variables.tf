@@ -16,7 +16,7 @@ variable "ami_id" {
 variable "instance_type" {
   description = "Type of the instance"
   type        = string
-  default     = "t3.micro"  
+  default     = "t3.micro"
 }
 
 variable "subnet_id" {
@@ -32,13 +32,13 @@ variable "vpc_security_group_ids" {
 
 variable "public_ip" {
   description = "Associate a public IP to the instance"
-  type        = string 
-  default     = "false"  
+  type        = string
+  default     = "false"
 }
 
 variable "user_data" {
   description = "User data of the instance"
-  type        = string  
+  type        = string
   default     = ""
 }
 
