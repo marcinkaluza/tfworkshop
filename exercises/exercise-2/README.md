@@ -1,11 +1,15 @@
-# Exercise 1
+# Exercise 2
 
 ## Introduction
 
 The aim of this exercise is to create VPC resources required to build a basic infrastructure. That includes the following components:
-- Based infrastructure
+- Base infrastructure
   - VPC
-  - 2 subnets on 2 different AZs
+  - Private subnets
+  - Public subnets
+- VPC route tables
+  - Private route table
+  - Public route table
 - Egress connectivity to the Internet
   - NAT Gateway
   - Internet Gateway
