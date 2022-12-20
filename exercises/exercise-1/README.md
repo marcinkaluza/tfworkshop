@@ -43,12 +43,17 @@ terraform init
 ```
 terraform plan
 ```
-3) Apply the configuration - this applies the configuration to the AWS account. When prompted, type `yes`.
+1) Apply the configuration - this applies the configuration to the AWS account.
 ```
-terraform apply
+terraform apply -auto-approve
 ```
+
+In the terminal, Terraform will output the names of the S3 bucket and DynamoDB table, make a note of the values since you will need to provide them in the next exercises.
 
 ## Conclusion
 
 Login to the AWS console if not already, go to S3 to verify that a new bucket has been deployed, then go to DynamoDB and verify that a new table has been created.
 
+## Useful links
+
+[Terraform Remote State](https://developer.hashicorp.com/terraform/language/state/remote)
