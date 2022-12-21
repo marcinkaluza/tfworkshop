@@ -30,8 +30,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 #
-# NA gateway AZ
-# NOTE: It a requirement as per AWS Securiy Matrix have a NAT per AZ
+# NA gateway per AZ
 #
 resource "aws_eip" "nat_eip" {
   count = length(var.public_subnets_cidr_blocks)
@@ -47,7 +46,7 @@ resource "aws_nat_gateway" "nat" {
 
 
 #
-# Private subnet
+# Private subnets
 #
 resource "aws_subnet" "private_subnet" {
   count = length(var.private_subnets_cidr_blocks)
@@ -85,7 +84,7 @@ resource "aws_route" "private_route_internet" {
 }
 
 #
-# Association of route table with private subnet 
+# Association of route table with private subnets 
 #
 resource "aws_route_table_association" "private_route_table_association" {
   count          = length(var.private_subnets_cidr_blocks)

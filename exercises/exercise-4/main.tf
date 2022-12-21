@@ -12,29 +12,28 @@ module "vpc" {
   public_subnets_cidr_blocks  = ["10.0.2.0/24", "10.0.4.0/24"]
 }
 
-#TODO Create security group for the instance
+# Security group for the EC2 instance
 resource "aws_security_group" "sg" {
-  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
-  name_prefix = "ec2_security_group_"
-  description = "SG for VPC endpoints"
+  name        = "ec2_sg"
+  description = "Allow VPC traffic"
   vpc_id      = module.vpc.vpc_id
 
-  egress {
-    description = "Egress to VPC CIDR"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "tcp"
-    cidr_blocks = [local.cidr_block]
+  ingress {
+    description      = "Traffic inside the VPC"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "tcp"
+    cidr_blocks      = [local.cidr_block]
   }
 
   egress {
-    description = "Egress to the internet"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 }
+
 #
 # Bastion host
 #

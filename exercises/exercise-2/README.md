@@ -45,7 +45,7 @@ resource "aws_vpc" "main" {
   }
 }
 ```
-[Terraform Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
+[Terraform Documentation for VPC resource](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
 
 #### variables.tf
 
