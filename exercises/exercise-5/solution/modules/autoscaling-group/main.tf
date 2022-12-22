@@ -1,23 +1,26 @@
-#
-# Creates an internal load balancer in the existing VPC subnets
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
-#
 resource "aws_lb" "load_balancer" {
-
+  name               = "load-balancer"
+  internal           = true
+  load_balancer_type = "network"
+  subnets            = var.subnets
 }
 
-# Creates a target group to attach to the load balancer, accessible on port HTTP:80 and located in the existing VPC
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
-#
 resource "aws_lb_target_group" "target_group" {
-
+  name     = "lb-target-group"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc
 }
 
-# Creates a listener for the load balancer to listen on port TCP:80, with a default action to forward to its target group
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
-#
 resource "aws_lb_listener" "listener" {
+  load_balancer_arn = aws_lb.load_balancer.arn
+  port              = "80"
+  protocol          = "TCP"
 
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group.arn
+  }
 }
 
 resource "aws_iam_role" "asg_iam_role" {
@@ -73,25 +76,32 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# Creates launch configuration for the autoscaling group, with same arguments as for the Bastion EC2 instance
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration
-#
 resource "aws_launch_configuration" "launch_configuration" {
+  name_prefix          = "launch-configuration-"
   image_id             = var.ami_id != null ? var.ami_id : data.aws_ami.amazon_linux.id
+  instance_type        = var.instance_type
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  security_groups      = var.asg_security_groups
   user_data            = var.user_data
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
-# Creates an autoscaling group based on the launch configuration created above. Subnets are the same as from the existing VPC
-# The size should be between 1 and 3 instances.
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
-#
 resource "aws_autoscaling_group" "asg" {
+  name_prefix               = "asg-"
+  min_size                  = 1
+  max_size                  = 3
+  launch_configuration      = aws_launch_configuration.launch_configuration.id
+  vpc_zone_identifier       = var.subnets
 
+  lifecycle {
+    ignore_changes = [load_balancers, target_group_arns]
+  }
 }
 
-# Creates an attachment to link the target group to the autoscaling group.
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_attachment
-#
 resource "aws_autoscaling_attachment" "asg-attachment" {
-
+  autoscaling_group_name = aws_autoscaling_group.asg.id
+  lb_target_group_arn    = aws_lb_target_group.target_group.arn
 }

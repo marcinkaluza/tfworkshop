@@ -12,25 +12,35 @@ module "vpc" {
   public_subnets_cidr_blocks  = ["10.0.2.0/24", "10.0.4.0/24"]
 }
 
-# Creates security group for the EC2 instance, which should be attached to the VPC, with ingress open on all ports restricted in VPC CIDR, and egress open for all
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
-#
+# Security group for the EC2 instance
 resource "aws_security_group" "sg" {
+  name        = "ec2_sg"
+  description = "Allow VPC traffic"
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
-
+    description      = "Traffic inside the VPC"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "tcp"
+    cidr_blocks      = [local.cidr_block]
   }
 
   egress {
-
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 }
 
 #
-# Declares EC2 module to create a bastion host, filling the variables values that needs defining.
+# Bastion host
 #
 module "bastion_host" {
   source                 = "./modules/ec2"
+  name                   = "Bastion host"
+  subnet_id              = module.vpc.vpc_private_subnet_ids[0]
   user_data              = <<EOF
     #!/bin/bash
     sudo yum install -y httpd-tools

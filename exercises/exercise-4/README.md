@@ -24,11 +24,13 @@ bucket               = ""
 terraform-state-lock = ""
 ```
 
-#### NOTE
+### Build module
 
-In this exercise, all resources have been pre-written for you, you do not need to make any changes on the resources.
+1. In the EC2 module, fill in the missing arguments of the EC2 instance resource.
 
-If you wish to play around with the EC2 resource arguments, refer to the documentation at the bottom section.
+2. In the main (root folder) `main.tf`, fill in the missing variables to declare the EC2 module correctly.
+
+3. In the main (root folder) `main.tf`, fill in the missing arguments to create the security group for the EC2 bastion instance.
 
 ### Deploy the Terraform code
 
@@ -53,10 +55,8 @@ You can login to the AWS Console to verify that all resources have been properly
 
 ## Useful links
 
-[Autoscaling Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group)
-
-[Launch Configuration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration)
-
-[Application Load Balancer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb)
-
 [All Terraform AWS resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+
+[EC2 instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance)
+
+[Security Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)

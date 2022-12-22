@@ -10,7 +10,7 @@ The previously setup:
 - Cloud9 machine
 - Terraform backend
 
-## Build VPC environment
+## Build VPC module
 
 ### Update Terraform backend
 
@@ -23,9 +23,23 @@ bucket               = ""
 terraform-state-lock = ""
 ```
 
-#### NOTE
+### Build module
 
-In this exercise, all resources have been pre-written for you, you do not need to make any changes on the resources.
+1. Create a folder called `modules` and copy the following files into it : `main.tf`, `variables.tf`, `outputs.tf`.
+
+2. Delete variable file `var.tfvars`, we won't need it anymore since we will hardcode the values into the main file (NOT recommended for Production).
+
+3. Declare the VPC module into the main (root folder) `main.tf` by adding the below:
+
+```
+module "vpc" {
+  source                      = "./modules/vpc"
+  name                        = "My VPC"
+  cidr_block                  = "10.0.0.0/16"
+  private_subnets_cidr_blocks = ["10.0.1.0/24", "10.0.3.0/24"]
+  public_subnets_cidr_blocks  = ["10.0.2.0/24", "10.0.4.0/24"]
+}
+```
 
 ### Deploy the Terraform code
 
@@ -46,7 +60,7 @@ terraform apply -auto-approve
 
 ## Conclusion
 
-You should notice that all VPC resources from the previous exercise are being destroyed and reployed as configured in the module.
+You should notice that all VPC resources from the previous exercise are being destroyed and re-deployed as configured in the module.
 
 ## Useful links
 

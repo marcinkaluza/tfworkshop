@@ -15,7 +15,7 @@ The previously setup:
 - Terraform backend
 - Module structure
 
-## Build EC2 module
+## Build Autoscaling Group module
 
 ### Update Terraform backend
 
@@ -28,11 +28,13 @@ bucket               = ""
 terraform-state-lock = ""
 ```
 
-#### NOTE
+### Build module
 
-In this exercise, all resources have been pre-written for you, you do not need to make any changes on the resources.
+1. In the autoscaling-group module, fill in the missing arguments of the resources.
+   
+2. Fill in correct value to declare the load balancer DNS output in `outputs.tf`.
 
-If you wish to play around with the autoscaling and load balancer resources arguments, refer to the documentation at the bottom section.
+3. In the main (root folder) `main.tf`, fill in the missing variables to declare the autoscaling-group module correctly.
 
 ### Deploy the Terraform code
 
@@ -62,3 +64,15 @@ TEST WITH BENCH EC2 ON ASG INSTANCES.
 ## Useful links
 
 [Terraform AWS resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+
+[Load Balancer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb)
+
+[Target Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group)
+
+[Listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener)
+
+[Launch Configuration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration)
+
+[Autoscaling Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group)
+
+[Autoscaling Group Attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_attachment)

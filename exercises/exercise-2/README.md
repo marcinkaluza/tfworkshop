@@ -106,3 +106,22 @@ You can login to the AWS Console to verify that all resources have been properly
 ## Useful links
 
 [Terraform AWS resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+
+[VPC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
+
+[Default Security Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_security_group)
+
+[Internet Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway)
+
+[Elastic IP](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip)
+
+[NAT Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway)
+
+[Subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)
+
+[Route Table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)
+
+[Route](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route)
+
+[Route Table Association](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association)
+

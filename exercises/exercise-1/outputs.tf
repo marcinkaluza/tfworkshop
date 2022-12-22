@@ -3,7 +3,9 @@ output s3_bucket_name {
    description = "Name of the S3 bucket"
 }
 
+# Refer to Attributes Reference section of the documentation :
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table
+#
 output lock_table_name {
-   value = aws_dynamodb_table.locks.name
-   description = "Name of the dynamodb table for terraform state"
+
 }

@@ -57,3 +57,8 @@ Login to the AWS console if not already, go to S3 to verify that a new bucket ha
 ## Useful links
 
 [Terraform Remote State](https://developer.hashicorp.com/terraform/language/state/remote)
+
+[S3 Bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket)
+
+[DynamoDB Table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table)
+

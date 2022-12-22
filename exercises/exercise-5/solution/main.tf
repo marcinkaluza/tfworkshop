@@ -51,10 +51,13 @@ module "bastion_host" {
 }
 
 #
-# Declares Autoscaling Group with Application Load Balancer module. The autoscaling group will use the same security
-# group as the bastion host.
+# Autoscaling Group with Application Load Balancer
 #
 module "autoscaling-group" {
+  source              = "./modules/autoscaling-group"
+  vpc                 = module.vpc.vpc_id
+  subnets             = module.vpc.vpc_private_subnet_ids
+  asg_security_groups = [aws_security_group.sg.id]
   user_data           = <<EOF
     #!/bin/bash
     sudo yum update -y

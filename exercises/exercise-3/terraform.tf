@@ -2,9 +2,9 @@ terraform {
   required_version = "~> 1.0"
 
   backend "s3" {
-    bucket         = "tf-state-20221219103317381700000001"
+    bucket         = ""
     key            = "terraform-state.tfstate"
-    dynamodb_table = "terraform-state-lock"
+    dynamodb_table = ""
   }
 
 
@@ -13,4 +13,8 @@ terraform {
       version = "4.45"
     }
   }
+}
+
+provider "aws" {
+  region = var.target_region
 }

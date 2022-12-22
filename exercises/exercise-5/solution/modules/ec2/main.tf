@@ -53,18 +53,26 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-
-#
-# Creates an EC2 instances of type t3.micro, with an instance profile for System Manager access,
-# and living in a private subnet from existing VPC.
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
-#
 resource "aws_instance" "ec2" {
   ami                         = var.ami_id != null ? var.ami_id : data.aws_ami.amazon_linux.id
+  instance_type               = var.instance_type
+  associate_public_ip_address = var.public_ip
+  iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
+  subnet_id                   = var.subnet_id
   vpc_security_group_ids      = var.vpc_security_group_ids
+  monitoring                  = true
   user_data                   = var.user_data
   user_data_replace_on_change = true
   tags = {
-    Name = var.name
+    Name = "${var.name}"
+  }
+  root_block_device {
+    encrypted = true
+  }
+
+  metadata_options {
+    http_endpoint          = "enabled"
+    http_tokens            = "required"
+    instance_metadata_tags = "enabled"
   }
 }
