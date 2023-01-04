@@ -8,7 +8,7 @@ By default, Terraform stores this state locally. However, this can become an iss
 
 The solution is to get Terraform to store its state remotely, in the AWS account where the resources will be deployed, so that the state is centralised and accessible by anyone working on the same deployment. 
 
-This is called a Terraform Backend and that's what we are going to create in this exercise, using an S3 bucket to store the state file and a DynamoDB table to lock the state. The same backend is then gonna be used for all the exercises of this Immersion Day.
+This is called a Terraform Backend and that's what we are going to create in this exercise, using an S3 bucket to store the state file and a DynamoDB table to lock the state. The same backend is then going to be used for all the exercises of this Immersion Day.
 
 ## Prerequisites
 

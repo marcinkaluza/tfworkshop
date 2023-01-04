@@ -2,8 +2,7 @@
 # Creates an S3 Bucket for terraform state storage, with auto-generated name starting with "tf-state-"
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket
 #
-resource aws_s3_bucket bucket{
-
+resource "aws_s3_bucket" "bucket" {
 }
 
 

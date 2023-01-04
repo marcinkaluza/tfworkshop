@@ -1,1 +1,0 @@
-target_region = "eu-west-1"

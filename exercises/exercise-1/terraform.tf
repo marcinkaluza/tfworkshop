@@ -1,13 +1,9 @@
 terraform {
-  required_version = "~> 1.0"
+  required_version = "~>= 1.3.6"
 
   required_providers {
-    aws = {
-      version               = "4.45"
-    }
+    # AWS Provider configuration 
+    # https://registry.terraform.io/providers/hashicorp/aws/latest/docs
   }
 }
 
-provider "aws" {
-  region = var.target_region
-}
