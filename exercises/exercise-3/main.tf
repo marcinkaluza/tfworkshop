@@ -34,11 +34,11 @@ resource "aws_internet_gateway" "igw" {
 # NOTE: It a requirement as per AWS Securiy Matrix have a NAT per AZ
 #
 resource "aws_eip" "nat_eip" {
-  vpc   = true
+  vpc = true
 }
 
 resource "aws_nat_gateway" "nat" {
-  subnet_id     = aws_subnet.public_subnet.id
+  subnet_id     = aws_subnet.public_subnet[0].id
   allocation_id = aws_eip.nat_eip.id
 }
 
@@ -84,7 +84,8 @@ resource "aws_route" "private_route_internet" {
 # Association of route table with private subnet 
 #
 resource "aws_route_table_association" "private_route_table_association" {
-  subnet_id      = aws_subnet.private_subnet.id
+  count = length(var.private_subnets_cidr_blocks)
+  subnet_id      = aws_subnet.private_subnet[count.index].id
   route_table_id = aws_route_table.private_rt.id
 }
 
@@ -127,7 +128,8 @@ resource "aws_route" "public_route_internet" {
 # Association of the route table to all public subnets
 #
 resource "aws_route_table_association" "public_route_table_association" {
-  subnet_id      = aws_subnet.public_subnet.id
+  count = length(var.public_subnets_cidr_blocks)
+  subnet_id      = aws_subnet.public_subnet[count.index].id
   route_table_id = aws_route_table.public_route_table.id
 }
 

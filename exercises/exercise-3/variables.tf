@@ -23,3 +23,8 @@ variable "allow_internet_egress" {
   description = "Set to true to allow internet egress from private subnets"
   default     = true
 }
+
+variable "target_region" {
+  type        = string
+  description = "Target AWS region"
+}
