@@ -18,8 +18,3 @@ variable "public_subnets_cidr_blocks" {
   description = "List of CIDR blocks for private subnets"
 }
 
-variable "allow_internet_egress" {
-  type        = bool
-  description = "Set to true to allow internet egress from private subnets"
-  default     = true
-}
