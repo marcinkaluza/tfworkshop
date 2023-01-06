@@ -30,12 +30,6 @@ variable "vpc_security_group_ids" {
   default     = []
 }
 
-variable "public_ip" {
-  description = "Associate a public IP to the instance"
-  type        = string
-  default     = "false"
-}
-
 variable "user_data" {
   description = "User data of the instance"
   type        = string

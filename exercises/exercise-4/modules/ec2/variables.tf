@@ -10,7 +10,6 @@ variable "name" {
 variable "ami_id" {
   description = "AMI of the EC2 instance. Optional, pulls latest linux AMI by default."
   type        = string
-  default     = null
 }
 
 variable "instance_type" {
@@ -28,12 +27,6 @@ variable "vpc_security_group_ids" {
   description = "List of security group id(s) to which EC2 should be attached"
   type        = list(string)
   default     = []
-}
-
-variable "public_ip" {
-  description = "Associate a public IP to the instance"
-  type        = string
-  default     = "false"
 }
 
 variable "user_data" {

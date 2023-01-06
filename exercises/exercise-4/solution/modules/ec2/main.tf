@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 resource "aws_iam_role" "ec2_iam_role" {
-  name = "ec2-iam-role"
+  name_prefix = "ec2-iam-role-"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -25,42 +25,33 @@ resource "aws_iam_role_policy_attachment" "ssm_policy" {
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "instance_profile"
-  role = aws_iam_role.ec2_iam_role.name
+  name_prefix = "instance_profile_"
+  role        = aws_iam_role.ec2_iam_role.name
 }
 
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners      = ["amazon"]
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-gp2"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
-
+#
+# Creates an EC2 instances of type t3.micro, with an instance profile for System Manager access,
+# and living in a private subnet from existing VPC.
+# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
+#
 resource "aws_instance" "ec2" {
-  ami                         = var.ami_id != null ? var.ami_id : data.aws_ami.amazon_linux.id
-  instance_type               = var.instance_type
-  iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
+  # The definition needs to include:
+  # ami id
+  # subnet id
+  # user data
+  # instance type
+  # tags including name
+  # security group ids
+  # instance profile
+
+  ami                         = var.ami_id
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = var.vpc_security_group_ids
   user_data                   = var.user_data
   user_data_replace_on_change = true
+  instance_type               = var.instance_type
+  iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
   tags = {
     Name = var.name
   }
