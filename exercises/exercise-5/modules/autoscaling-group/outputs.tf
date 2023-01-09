@@ -10,5 +10,5 @@ output "iam_arn" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 #
 output "nlb_dns" {
-
+  value = aws_lb.load_balancer.dns_name
 }

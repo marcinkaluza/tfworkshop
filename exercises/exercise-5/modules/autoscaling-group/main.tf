@@ -3,25 +3,38 @@
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 #
 resource "aws_lb" "load_balancer" {
-
+  name               = "web-nlb"
+  internal           = true
+  load_balancer_type = "network"
+  subnets            = var.subnets
 }
 
 # Creates a target group to attach to the load balancer, accessible on port HTTP:80 and located in the existing VPC
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
 #
 resource "aws_lb_target_group" "target_group" {
-
+  name     = "web-nlb-target-group"
+  vpc_id   = var.vpc
+  port     = 80
+  protocol = "TCP"
 }
 
 # Creates a listener for the load balancer to listen on port TCP:80, with a default action to forward to its target group
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 #
 resource "aws_lb_listener" "listener" {
+  load_balancer_arn = aws_lb.load_balancer.arn
+  port              = "80"
+  protocol          = "TCP"
 
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group.arn
+  }
 }
 
 resource "aws_iam_role" "asg_iam_role" {
-  name = "asg-iam-role"
+  name_prefix = "asg-iam-role-"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -45,40 +58,23 @@ resource "aws_iam_role_policy_attachment" "ssm_policy" {
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "asg_instance_profile"
-  role = aws_iam_role.asg_iam_role.name
+  name_prefix = "asg_instance_profile_"
+  role        = aws_iam_role.asg_iam_role.name
 }
 
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners      = ["amazon"]
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-gp2"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
 
 # Creates launch configuration for the autoscaling group, with same arguments as for the Bastion EC2 instance
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration
 #
 resource "aws_launch_configuration" "launch_configuration" {
-  image_id             = var.ami_id != null ? var.ami_id : data.aws_ami.amazon_linux.id
+  image_id             = var.ami_id
   user_data            = var.user_data
+  instance_type        = var.instance_type
+  security_groups      = var.asg_security_groups
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Creates an autoscaling group based on the launch configuration created above. Subnets are the same as from the existing VPC
@@ -86,12 +82,29 @@ resource "aws_launch_configuration" "launch_configuration" {
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
 #
 resource "aws_autoscaling_group" "asg" {
-
+  name                      = "web-server-asg"
+  max_size                  = 5
+  min_size                  = 1
+  health_check_grace_period = 300
+  health_check_type         = "ELB"
+  desired_capacity          = 1
+  force_delete              = true
+  launch_configuration      = aws_launch_configuration.launch_configuration.name
+  vpc_zone_identifier       = var.subnets
+  target_group_arns         = [aws_lb_target_group.target_group.arn]
 }
 
-# Creates an attachment to link the target group to the autoscaling group.
-# Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_attachment
-#
-resource "aws_autoscaling_attachment" "asg-attachment" {
+resource "aws_autoscaling_policy" "example" {
+  name                   = "web-server-cpu-policy"
+  adjustment_type        = "ChangeInCapacity"
+  autoscaling_group_name = aws_autoscaling_group.asg.name
+  policy_type = "TargetTrackingScaling"
 
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 30.0
+  }
 }
