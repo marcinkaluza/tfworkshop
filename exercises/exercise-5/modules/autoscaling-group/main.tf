@@ -73,9 +73,6 @@ resource "aws_autoscaling_group" "asg" {
   target_group_arns         = [aws_lb_target_group.target_group.arn]
 }
 
-# Autoscaling policy for the ASG
-# Documentation: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_policy
-#
 resource "aws_autoscaling_policy" "example" {
   name                   = "web-server-cpu-policy"
   adjustment_type        = "ChangeInCapacity"
