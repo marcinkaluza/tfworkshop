@@ -2,7 +2,6 @@
 # https://developer.hashicorp.com/terraform/language/values/variables
 
 variable "target_region" {
-  type        = string
-  description = "Target region for deployment"
+  # TODO: Specify type, description, and default value of "us-east-1" for the variable
 }
 
