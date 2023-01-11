@@ -5,10 +5,10 @@
 # Refer to Attributes Reference section of the documentation :
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table
 #
-output bucket_name {
+output bucket {
    # TODO: Add value of the bucket's name
 }
 
-output table_name {
+output dynamodb_table {
    # TODO: Add value of the table name
 }
