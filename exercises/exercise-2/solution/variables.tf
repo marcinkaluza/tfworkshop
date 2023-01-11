@@ -18,3 +18,7 @@ variable "public_subnets_cidr_blocks" {
   description = "List of CIDR blocks for private subnets"
 }
 
+variable "target_region" {
+  type        = string
+  description = "Target region for deployment"
+}
