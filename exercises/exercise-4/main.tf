@@ -20,17 +20,19 @@ resource "aws_security_group" "sg" {
   description = "Allow VPC traffic"
   vpc_id      = module.vpc.vpc_id
 
-  # Allow ingress from the VPC CIDR on all ports/protocols
-  # ingress {
-  # }
+  ingress {
+    protocol  = -1
+    self      = true
+    from_port = 0
+    to_port   = 0
+  }
 
-  # # Allow egress to the vpc on all ports and protocols
-  # egress {
-  # }
-
-  # # Allow egress to the internet on TCP port 443
-  # egress {
-  # }
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 #
@@ -71,6 +73,7 @@ module "bastion_host" {
   instance_type          = "t3.micro"
   user_data              = <<EOF
     #!/bin/bash
+    sudo yum update -y
     sudo yum install -y httpd-tools
   EOF
   vpc_security_group_ids = [aws_security_group.sg.id]
