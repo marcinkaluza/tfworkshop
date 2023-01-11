@@ -1,20 +1,21 @@
-# Exercise 3
+# Exercise 2
 
 ## Introduction
 
-The aim of this exercise is to move the VPC resources to a module structure.
+The aim of this exercise is to move all VPC resources to a module structure.
+
+![](../../images/Readme_Diagrams-Exercise%202.png)
 
 ## Prerequisites
 
-The previously setup:
-- Cloud9 machine
-- Terraform backend
+For this exercise, all you need is your Terraform Backend built from  `exercise-1` with S3 and DynamoDB table outputs.
 
-## Build VPC module
 
-### Update Terraform backend
+## Build VPC resources
 
-Update these 2 lines with the output values you saved from `exercise-1` in `terraform.tf`:
+Using Visual Studio editor, open `exercise-3` folder, you will be redeploying the VPC resources but with a module.
+
+Don't forget to tell Terraform where to store AWS states by providing the details of the Backend you built in `exercise-1`, by updating the below values in `terraform.tf`:
 
 ```
 bucket               = ""
@@ -23,45 +24,61 @@ bucket               = ""
 terraform-state-lock = ""
 ```
 
-### Build module
+Once you're done, go through the following steps from the terminal:
 
-1. Create a folder called `modules` and copy the following files into it : `main.tf`, `variables.tf`, `outputs.tf`.
-
-2. Delete variable file `var.tfvars`, we won't need it anymore since we will hardcode the values into the main file (NOT recommended for Production).
-
-3. Declare the VPC module into the main (root folder) `main.tf` by adding the below:
-
+- Go to exercise-3
 ```
-module "vpc" {
-  source                      = "./modules/vpc"
-  name                        = "My VPC"
-  cidr_block                  = "10.0.0.0/16"
-  private_subnets_cidr_blocks = ["10.0.1.0/24", "10.0.3.0/24"]
-  public_subnets_cidr_blocks  = ["10.0.2.0/24", "10.0.4.0/24"]
-}
+cd ../exercise-3
 ```
-
-### Deploy the Terraform code
-
-From your terminal, enter exercise 3 folder (i.e.`cd exercise-3`):
-
-1) Initialize Terraform - this downloads all required plugins and providers for this deployment, and locates the remote backend built in `exercise-1`.
+- Format Terraform configuration.
+```
+terraform fmt
+```
+- Initialize Terraform - this downloads all required plugins and providers for this deployment.
 ```
 terraform init
 ```
-1) Create a plan of the deployment - this shows you what is going to be deployed.
+- Validate Terraform configuration to make there is no obvious errors.
+```
+terraform validate
+```
+- Create a plan of the deployment - this shows you what is going to be deployed.
 ```
 terraform plan
 ```
-1) Apply the configuration - this applies the configuration to the AWS account.
+- Apply the configuration - this applies the configuration to the AWS account.
 ```
-terraform apply -auto-approve
+terraform apply
 ```
+Enter **yes** when prompted.
+
+#### NOTE
+
+The solution can be found ready in `exercise-3/solution/` if needed.
 
 ## Conclusion
 
-You should notice that all VPC resources from the previous exercise are being destroyed and re-deployed as configured in the module.
+You can login to the AWS Console to verify that all resources have been properly created.
 
 ## Useful links
 
 [Terraform AWS resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+
+[VPC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
+
+[Default Security Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_security_group)
+
+[Internet Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway)
+
+[Elastic IP](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip)
+
+[NAT Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway)
+
+[Subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)
+
+[Route Table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)
+
+[Route](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route)
+
+[Route Table Association](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association)
+

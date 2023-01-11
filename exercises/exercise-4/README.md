@@ -2,20 +2,21 @@
 
 ## Introduction
 
-In this exercise, you will create an EC2 module in order to build a private EC2 instance with an IAM role to allow remote access via System Manager.
+In this exercise, you will create an EC2 module in order to build a private EC2 instance, called a Bastion, including an IAM role to allow remote access via System Manager.
+
+![](./../../images/Readme_Diagrams-Exercise%204.png)
 
 ## Prerequisites
 
-The previously setup:
-- Cloud9 machine
-- Terraform backend
-- VPC module structure
+For this exercise, all you need is your Terraform Backend built from  `exercise-1` with S3 and DynamoDB table outputs.
 
 ## Build EC2 module
 
-### Update Terraform backend
+Using Visual Studio editor, open `exercise-4` folder and browse through the files to see what configuration is missing.
 
-Update these 2 lines with the output values you saved from `exercise-1` in `terraform.tf`:
+Wherever configuration needs to be added, there is a `#TODO` in the comments. Alternatiely, you can directly do a search with `CTRL + F` for all `#TODO` in `exercise-4`.
+
+Don't forget to tell Terraform where to store AWS states by providing the details of the Backend you built in `exercise-1`, by updating the below values in `terraform.tf`:
 
 ```
 bucket               = ""
@@ -24,34 +25,43 @@ bucket               = ""
 terraform-state-lock = ""
 ```
 
-### Build module
+Once you're done, go through the following steps from the terminal:
 
-1. In the EC2 module, fill in the missing arguments of the EC2 instance resource.
-
-2. In the main (root folder) `main.tf`, fill in the missing variables to declare the EC2 module correctly.
-
-3. In the main (root folder) `main.tf`, fill in the missing arguments to create the security group for the EC2 bastion instance.
-
-### Deploy the Terraform code
-
-From your terminal, enter exercise 3 folder (i.e.`cd exercise-4`):
-
-1) Initialize Terraform - this downloads all required plugins and providers for this deployment, and locates the remote backend built in `exercise-1`.
+- Go to exercise-4
+```
+cd ../exercise-4
+```
+- Format Terraform configuration.
+```
+terraform fmt
+```
+- Initialize Terraform - this downloads all required plugins and providers for this deployment.
 ```
 terraform init
 ```
-1) Create a plan of the deployment - this shows you what is going to be deployed.
+- Validate Terraform configuration to make there is no obvious errors.
+```
+terraform validate
+```
+- Create a plan of the deployment - this shows you what is going to be deployed.
 ```
 terraform plan
 ```
-1) Apply the configuration - this applies the configuration to the AWS account.
+- Apply the configuration - this applies the configuration to the AWS account.
 ```
-terraform apply -auto-approve
+terraform apply
 ```
+Enter **yes** when prompted.
+
+#### NOTE
+
+The solution can be found ready in `exercise-4/solution/` if needed.
 
 ## Conclusion
 
 You can login to the AWS Console to verify that all resources have been properly created.
+
+You can try connecting to the Bastion instance by going to the EC2 dashboard, then select the instance and connect. You will be connected via System Manager which allows to connect privately to instances.
 
 ## Useful links
 

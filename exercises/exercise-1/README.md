@@ -12,16 +12,44 @@ This is called a Terraform Backend and that's what we are going to create in thi
 
 ## Prerequisites
 
+### Connect to AWS Cloud9 instance
+
+To access your AWS account, follow the steps:
+- Go to the EventEngine [dashboard](https://dashboard.eventengine.run/login)
+- Enter the provided Hash Key
+- Connect with OTP using your work email address
+- Open AWS Console
+- In the Console search bar, enter and select Cloud9
+- Select the running Cloud9 instance and connect
+  
 ### Tools
 
-- A Cloud9 machine with an associated IAM role or AWS credentials to deploy resources in the AWS account.
-- Git cli - already on cloud9 ?
-- Terraform cli - already on cloud9 ?
-- A text editor - already on cloud9 ?
+Using the Terminal, verify the below tools are already installed:
+- For Git, run:
+  
+  ```
+  git -v
+  ```
+- For Terraform, run:
+
+  ```
+  terraform --version
+  ```
+- For AWS, run:
+
+  ```
+  aws --version
+  ```
+
+### Enable auto-save
+On the top left corner Cloud9 icon, select Preferences and go to Experimental, turn auto-save On.
+
+### Disable AWS Temporary Credentials
+On the top left corner Cloud9 icon, select Preferences and go to XXXXX and disable AWS temporary credentials.
 
 ### Clone Github repository
 
-On a browser, go to this [Gihub repository](github.com) **TO BE UPDATED**, click on `clone` and copy the HTTPS URL.
+On a browser, go to this [Gihub repository]([github.com](https://github.com/marcinkaluza/tfworkshop), click on `clone` and copy the HTTPS URL.
 
 On your Cloud9 machine, open your terminal and type:
 
@@ -29,26 +57,49 @@ On your Cloud9 machine, open your terminal and type:
 git clone <HTTPS URL>
 ```
 
-Make sure the content has been copied to your local machine.
+Make sure the content is appearing in your machine. You will be using Visual Studio on CLoud9 for today's exercises.
 
 ## Create Terraform backend
 
-From your terminal, enter exercise 1 folder (i.e.`cd exercise-1`) and deploy the backend with Terraform.
+Using Visual Studio editor, open `exercise-1` folder and browse through the files to see what configuration is missing.
 
-1) Initialize Terraform - this downloads all required plugins and providers for this deployment.
+Wherever configuration needs to be added, there is a `#TODO` in the comments. Alternatiely, you can directly do a search with `CTRL + F` for all `#TODO` in `exercise-1`.
+
+Once you're done, go through the following steps from the terminal:
+
+- Go to exercise-1
+```
+cd /environment/workshop/exercises/exercise-1
+```
+   - Format Terraform configuration.
+```
+terraform fmt
+```
+- Initialize Terraform - this downloads all required plugins and providers for this deployment.
 ```
 terraform init
 ```
-2) Create a plan of the deployment - this shows you what is going to be deployed.
+- Validate Terraform configuration to make there is no obvious errors.
+```
+terraform validate
+```
+- Create a plan of the deployment - this shows you what is going to be deployed.
 ```
 terraform plan
 ```
-1) Apply the configuration - this applies the configuration to the AWS account.
+- Apply the configuration - this applies the configuration to the AWS account.
 ```
-terraform apply -auto-approve
+terraform apply
 ```
+Enter **yes** when prompted.
 
-In the terminal, Terraform will output the names of the S3 bucket and DynamoDB table, make a note of the values since you will need to provide them in the next exercises.
+## Retrieve Backend outputs
+
+If successfully configured, Terraform will output the names of the S3 bucket and DynamoDB table, make a note of both since you will need to provide these values in the next exercises.
+
+#### NOTE
+
+The solution can be found ready in `exercise-1/solution/` if needed.
 
 ## Conclusion
 
