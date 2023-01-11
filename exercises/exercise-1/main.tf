@@ -1,5 +1,6 @@
 locals {
-  # TODO: Add local variable holding the name of the key field 
+  # TODO: Add local variable holding the name of the key field. 
+  # The value is case sensitive and should be "LockID"
 }
 #
 # Creates an S3 Bucket for terraform state storage, with auto-generated name starting with "tf-state-"
@@ -21,8 +22,9 @@ resource "aws_dynamodb_table" "locks" {
   # name
   # write capacity
   # read capacity
-  # hash key
+  # hash key - use local variable
 
+  # TODO: replace hardcoded value with reference to local variable
   attribute {
     name = "LockID"
     type = "S"
