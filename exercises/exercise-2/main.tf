@@ -6,6 +6,8 @@ data "aws_availability_zones" "az" {}
 resource "aws_vpc" "main" {
   # TODO: Add arguments to the VPC
   # cidr block (use cidr_block variable)
+  # enable DNS host names
+  # enable DNS support
   # create Name tag with value taken from the "name" variable
 }
 
