@@ -34,7 +34,6 @@ resource "aws_autoscaling_group" "asg" {
 #
 resource "aws_autoscaling_policy" "example" {
   name                   = "web-server-cpu-policy"
-  adjustment_type        = "ChangeInCapacity"
   autoscaling_group_name = aws_autoscaling_group.asg.name
   policy_type            = "TargetTrackingScaling"
 
