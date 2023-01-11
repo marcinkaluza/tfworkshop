@@ -36,6 +36,7 @@ resource "aws_iam_instance_profile" "instance_profile" {
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
 #
 resource "aws_instance" "ec2" {
+  # TODO: Provide required arguments
   # The definition needs to include:
   # ami id
   # subnet id
