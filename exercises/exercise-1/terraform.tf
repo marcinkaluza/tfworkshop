@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-provider aws {
+provider "aws" {
   #TODO: Specify region for the deployment using target_region variable
 }
 
