@@ -1,0 +1,1 @@
+# TODO: Copy content of the main.tf fle from exercise-2/solution/main.tf here
