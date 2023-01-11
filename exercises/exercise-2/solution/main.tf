@@ -29,7 +29,7 @@ resource "aws_default_security_group" "default" {
 
   egress {
     from_port   = 443
-    to_port     = 445
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
