@@ -1,5 +1,5 @@
 variable "target_region" {
   type        = string
   description = "Target region"
-  default     = "eu-west-1"
+  default     = "us-east-1"
 }

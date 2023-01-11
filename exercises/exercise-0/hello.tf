@@ -7,7 +7,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-1"
   default_tags {
     tags = {
       Project       = "A project"
