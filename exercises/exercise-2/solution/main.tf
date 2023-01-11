@@ -28,9 +28,9 @@ resource "aws_default_security_group" "default" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = 443
+    to_port     = 445
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -138,8 +138,6 @@ resource "aws_route_table" "private_route_table" {
     Name = "Private route table"
   }
 }
-
-
 
 #
 # Creates a route to the NAT Gateway for egress traffic from the private subnets.
