@@ -3,8 +3,9 @@ terraform {
 
   backend "s3" {
     bucket         = ""
-    key            = "terraform-state.tfstate"
     dynamodb_table = ""
+    key            = "terraform-state.tfstate"
+    region         = "us-east-1"
   }
 
 
