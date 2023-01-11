@@ -21,11 +21,10 @@ resource "aws_security_group" "sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    description = "Traffic inside the VPC"
     from_port   = 0
     to_port     = 0
-    protocol    = "tcp"
-    cidr_blocks = [local.cidr_block]
+    protocol    = "-1"
+    self        = true
   }
 
   egress {
@@ -74,6 +73,7 @@ module "bastion_host" {
   instance_type          = "t3.micro"
   user_data              = <<EOF
     #!/bin/bash
+    sudo yum update -y
     sudo yum install -y httpd-tools
   EOF
   vpc_security_group_ids = [aws_security_group.sg.id]
