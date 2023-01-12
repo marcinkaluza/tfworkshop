@@ -45,7 +45,7 @@ Using the Terminal, verify the below tools are already installed:
 On the top left corner Cloud9 icon, select Preferences and go to Experimental, turn auto-save On.
 
 ### Disable AWS Temporary Credentials
-On the top left corner Cloud9 icon, select Preferences and go to XXXXX and disable AWS temporary credentials.
+On the top left corner Cloud9 icon, select Preferences, go to AWS Resources and disable AWS managed temporary credentials.
 
 ### Clone Github repository
 
@@ -57,13 +57,13 @@ On your Cloud9 machine, open your terminal and type:
 git clone <HTTPS URL>
 ```
 
-Make sure the content is appearing in your machine. You will be using Visual Studio on CLoud9 for today's exercises.
+Make sure the content is appearing in your machine. You will be using AWS Cloud9 for today's exercises.
 
 ## Create Terraform backend
 
-Using Visual Studio editor, open `exercise-1` folder and browse through the files to see what configuration is missing.
+Using the Cloud9 editor, open `exercise-1` folder and browse through the files to see what configuration is missing.
 
-Wherever configuration needs to be added, there is a `#TODO` in the comments. Alternatiely, you can directly do a search with `CTRL + F` for all `#TODO` in `exercise-1`.
+Wherever configuration needs to be added, there is a `#TODO` in the comments. Alternatively, you can directly do a search with `CTRL + F` for all `#TODO` in `exercise-1`.
 
 Once you're done, go through the following steps from the terminal:
 
