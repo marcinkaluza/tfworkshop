@@ -12,11 +12,19 @@ resource "aws_launch_configuration" "launch_configuration" {
   }
 }
 
+# Creates role for the autoscaling service
+# Documentation: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_service_linked_role
+#
+resource "aws_iam_service_linked_role" "autoscaling" {
+  aws_service_name = "autoscaling.amazonaws.com"
+}
+
 # Creates an autoscaling group based on the launch configuration created above. Subnets are the same as from the existing VPC
 # The size should be between 1 and 3 instances.
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
 #
 resource "aws_autoscaling_group" "asg" {
+  depends_on                = [aws_iam_service_linked_role.autoscaling]
   name                      = "web-server-asg"
   max_size                  = 5
   min_size                  = 1

@@ -3,10 +3,11 @@
 # Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 #
 resource "aws_lb" "load_balancer" {
-  name               = "web-nlb"
-  internal           = true
-  load_balancer_type = "network"
-  subnets            = var.subnets
+  name                             = "web-nlb"
+  internal                         = true
+  load_balancer_type               = "network"
+  subnets                          = var.subnets
+  enable_cross_zone_load_balancing = true
 }
 
 # Creates a target group to attach to the load balancer, accessible on port HTTP:80 and located in the existing VPC
