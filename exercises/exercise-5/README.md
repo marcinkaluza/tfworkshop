@@ -4,9 +4,7 @@
 
 In this exercise, you will create a new module in order to build the following components:
 - Austoscaling Group
-  - 3 EC2 instances with 'Hello world' type web page
-  - IAM role for SSM remote access
-- Application Load Balancer to front the autoscaling group
+- Network Load Balancer to front the autoscaling group
 
 ![](./../../images/Readme_Diagrams-Exercise%205.png)
 
