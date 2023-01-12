@@ -57,11 +57,11 @@ terraform validate
 ```
 - Create a plan of the deployment - this shows you what is going to be deployed.
 ```
-terraform plan
+terraform plan -var-file=var.tfvars
 ```
 - Apply the configuration - this applies the configuration to the AWS account.
 ```
-terraform apply
+terraform apply -var-file=var.tfvars
 ```
 Enter **yes** when prompted.
 

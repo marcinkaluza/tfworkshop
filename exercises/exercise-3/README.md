@@ -1,4 +1,4 @@
-# Exercise 2
+# Exercise 3
 
 ## Introduction
 
@@ -32,7 +32,7 @@ cd ../exercise-3
 ```
 - Format Terraform configuration.
 ```
-terraform fmt
+terraform fmt -recursive
 ```
 - Initialize Terraform - this downloads all required plugins and providers for this deployment.
 ```
