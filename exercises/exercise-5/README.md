@@ -18,12 +18,10 @@ Using Visual Studio editor, open `exercise-5` folder and browse through the file
 
 Wherever configuration needs to be added, there is a `#TODO` in the comments. Alternatiely, you can directly do a search with `CTRL + F` for all `#TODO` in `exercise-5`.
 
-Don't forget to tell Terraform where to store AWS states by providing the details of the Backend you built in `exercise-1`, by updating the below values in `terraform.tf`:
+Don't forget to configure Terraform to store state in the S3 backend by providing the details of the Backend you built in `exercise-1`, by updating the below values in `terraform.tf`:
 
 ```
 bucket               = ""
-```
-```
 terraform-state-lock = ""
 ```
 

@@ -13,14 +13,12 @@ For this exercise, all you need is your Terraform Backend built from  `exercise-
 
 ## Build VPC resources
 
-Using Visual Studio editor, open `exercise-3` folder, you will be redeploying the VPC resources but with a module.
+Using Cloud9 editor, open `exercise-3` folder, you will be redeploying the VPC resources but with a module.
 
-Don't forget to tell Terraform where to store AWS states by providing the details of the Backend you built in `exercise-1`, by updating the below values in `terraform.tf`:
+Don't forget to configure Terraform to store state in the S3 backend by providing the details of the Backend you built in `exercise-1`, by updating the below values in `terraform.tf`:
 
 ```
 bucket               = ""
-```
-```
 terraform-state-lock = ""
 ```
 
