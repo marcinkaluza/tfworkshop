@@ -95,7 +95,10 @@ Enter **yes** when prompted.
 
 ## Retrieve Backend outputs
 
-If successfully configured, Terraform will output the names of the S3 bucket and DynamoDB table, make a note of both since you will need to provide these values in the next exercises.
+If successfully configured, Terraform will output the names of the S3 bucket and DynamoDB table, make a note of both since you will need to provide these values in the next exercises. You can retrieve outputs of the configuration at any time using following command:
+```
+terraform output
+```
 
 #### NOTE
 
