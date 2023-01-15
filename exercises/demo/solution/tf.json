@@ -1,0 +1,92 @@
+{
+   // Place your snippets for tf here. Each snippet is defined under a snippet name and has a prefix, body and 
+   // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+   // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+   // same ids are connected.
+   "Terraform block": {
+      "prefix": "terraform",
+      "body": [
+         "terraform {",
+         "\trequired_version=\"~>1.3.6\"",
+         "\trequired_providers {",
+         "\t\taws    = \">= 4.45\"",
+         "\t}",
+         "}"
+      ],
+      "description": "Terraform block"
+   },
+   "Provider block": {
+      "prefix": "provider",
+      "body": [
+         "provider aws {",
+         "\tregion = \"us-east-1\"",
+         "}"
+      ],
+      "description": "Provider block"
+   },
+   "Variable block": {
+      "prefix": "variable",
+      "body": [
+         "variable target_region {",
+         "\ttype = string",
+         "\tdefault = \"us-east-1\"",
+         "\tdescription = \"Target region\"",
+         "}"
+      ],
+      "description": "Variable block"
+   },
+   "Resource block": {
+      "prefix": "resource",
+      "body": [
+         "resource aws_s3_bucket photos {",
+         "\tbucket_prefix = \"my-bucket-\"",
+         "}"
+      ],
+      "description": "Resource block"
+   },
+   "Output block": {
+      "prefix": "output",
+      "body": [
+         "output bucket_name {",
+         "\tvalue = module.s3_bucket.s3_bucket_id",
+         "}"
+      ],
+      "description": "Output block"
+   },
+   "Data block": {
+      "prefix": "data",
+      "body": [
+         "data local_file photo {",
+         "\tfilename = \"${path.module}/hello.tf\"",
+         "}"
+      ],
+      "description": "Output block"
+   },
+   "Upload block": {
+      "prefix": "upload",
+      "body": [
+         "resource aws_s3_object upload {",
+         "\tbucket  = module.s3_bucket.s3_bucket_id",
+         "\tkey     = \"main.tf\"",
+         "\tcontent = data.local_file.photo.content",
+         "}"
+      ],
+      "description": "Output block"
+   },
+   "Module block": {
+      "prefix": "module",
+      "body": [
+         "module \"s3_bucket\" {",
+         "\tsource = \"terraform-aws-modules/s3-bucket/aws\"",
+         "",
+         "\tbucket_prefix = \"photos-\"",
+         "",
+         "\tblock_public_acls       = true",
+         "\tblock_public_policy     = true",
+         "\tignore_public_acls      = true",
+         "\trestrict_public_buckets = true",
+         "}"
+      ],
+      "description": "Output block"
+   },
+}
