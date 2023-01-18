@@ -45,19 +45,7 @@ Using the Terminal, verify the below tools are already installed:
 On the top left corner Cloud9 icon, select Preferences and go to Experimental, turn auto-save On.
 
 ### Disable AWS Temporary Credentials
-On the top left corner Cloud9 icon, select Preferences, go to AWS Resources and disable AWS managed temporary credentials.
-
-### Clone Github repository
-
-On a browser, go to this [Gihub repository]([github.com](https://github.com/marcinkaluza/tfworkshop), click on `clone` and copy the HTTPS URL.
-
-On your Cloud9 machine, open your terminal and type:
-
-```
-git clone <HTTPS URL>
-```
-
-Make sure the content is appearing in your machine. You will be using AWS Cloud9 for today's exercises.
+On the top left corner Cloud9 icon, select Preferences, go to AWS Settings then on AWS Resources, disable AWS managed temporary credentials.
 
 ## Create Terraform backend
 
@@ -69,7 +57,7 @@ Once you're done, go through the following steps from the terminal:
 
 - Go to exercise-1
 ```
-cd /environment/workshop/exercises/exercise-1
+cd /home/ec2-user/environment/tfworkshop/exercises/exercise-1
 ```
    - Format Terraform configuration.
 ```
